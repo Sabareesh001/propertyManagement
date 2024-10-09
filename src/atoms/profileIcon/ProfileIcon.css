@@ -1,0 +1,20 @@
+.profileImageContainer{
+    height: 100%;
+    
+}
+
+
+
+.profileImageContainer img{
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+}
+
+.profileImageContainer.circular img{
+    border-radius: 50%;
+}
+
+.profileImageContainer.rectangular img{
+    border-radius: 10%;
+}

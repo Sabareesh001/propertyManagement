@@ -1,0 +1,21 @@
+.notificationIcon .icon{
+    color: white;
+    font-size:25px;
+}
+
+.notificationIcon{
+    color: #1c1c1c;
+    padding: 5px;
+}
+
+.notificationIcon:hover{
+    cursor: pointer;
+    background-color: #e4e8ee;
+    border-radius: 5px;
+    color: #e4e8ee;
+}
+
+.notificationIcon:hover .icon{
+    color: black;
+}
+
