@@ -22,7 +22,7 @@ const Topbar = ()=>{
                    <div className='verticalLine'></div>
                    <div className='userDetailsContainer'>
                    <div className='profileIconContainer'>
-                       <ProfileIcon type="circular" image={ManImage}/>
+                       <ProfileIcon height={'100%'} width={'100%'}  image={ManImage}/>
                    </div>
                        <div className='userDetails'>
                         <div className='name'>Bala Ganesh</div>

@@ -1,0 +1,18 @@
+.stepBadge{
+    background-color:#5078e1 ;
+    color: white;
+    height: 20px;
+    width: 20px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.stepBadgeContainer{
+    padding: 2px;
+    border: #5079e176 solid 2px;
+    border-radius: 100%;
+
+}

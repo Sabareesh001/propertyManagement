@@ -1,0 +1,16 @@
+.breadCrumbsContainer{
+    width: 100%;
+    padding: 20px;
+    color: #5078E1;
+}
+
+.breadcrumb{
+    color: #5078E1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.breadcrumbSeparator{
+    font-size: 14px;
+}
