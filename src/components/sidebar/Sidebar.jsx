@@ -1,5 +1,6 @@
 import './Sidebar.css';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
@@ -23,17 +24,20 @@ import Person2Icon from '@mui/icons-material/Person2';
 import { useState } from 'react';
 
 const Sidebar = () => {
+
+  const [isSideBarOpen,setIsSideBarOpen] = useState(false);
+
   const menus = [
-    { iconOutlined: <DashboardOutlinedIcon />, iconFilled: <DashboardIcon /> },
-    { iconOutlined: <GroupsOutlinedIcon />, iconFilled: <GroupsIcon /> },
-    { iconOutlined: <BusinessOutlinedIcon />, iconFilled: <BusinessIcon /> },
-    { iconOutlined: <Person2OutlinedIcon />, iconFilled: <Person2Icon /> },
-    { iconOutlined: <LocalOfferOutlinedIcon />, iconFilled: <LocalOfferIcon /> },
-    { iconOutlined: <SettingsOutlinedIcon />, iconFilled: <SettingsIcon /> },
-    { iconOutlined: <BackupOutlinedIcon />, iconFilled: <BackupIcon /> },
-    { iconOutlined: <ArticleOutlinedIcon />, iconFilled: <ArticleIcon /> },
-    { iconOutlined: <FolderCopyOutlinedIcon />, iconFilled: <FolderCopyIcon /> },
-    { iconOutlined: <CommentOutlinedIcon />, iconFilled: <CommentIcon /> },
+    { iconOutlined: <DashboardOutlinedIcon />, iconFilled: <DashboardIcon /> , name:'Dashboard'},
+    { iconOutlined: <GroupsOutlinedIcon />, iconFilled: <GroupsIcon />,name:'Companies' },
+    { iconOutlined: <BusinessOutlinedIcon />, iconFilled: <BusinessIcon />,name:'Owners' },
+    { iconOutlined: <Person2OutlinedIcon />, iconFilled: <Person2Icon />,name:'Properties' },
+    { iconOutlined: <LocalOfferOutlinedIcon />, iconFilled: <LocalOfferIcon />,name:'Pricing' },
+    { iconOutlined: <SettingsOutlinedIcon />, iconFilled: <SettingsIcon />,name:'Setting' },
+    { iconOutlined: <BackupOutlinedIcon />, iconFilled: <BackupIcon /> ,name:'Data Management'},
+    { iconOutlined: <ArticleOutlinedIcon />, iconFilled: <ArticleIcon />,name:'Reports' },
+    { iconOutlined: <FolderCopyOutlinedIcon />, iconFilled: <FolderCopyIcon />,name:'Documents' },
+    { iconOutlined: <CommentOutlinedIcon />, iconFilled: <CommentIcon />,name:'Communications' },
   ];
 
   const [menuHover, setMenuHover] = useState(Array(menus.length).fill(false));
@@ -51,21 +55,39 @@ const Sidebar = () => {
   };
 
   return (
-    <div className='sidebarContainer'>
+    <div className={`sidebarContainer ${isSideBarOpen?'open':''}`}>
       <div className='sidebarContentContainer'>
-        <div className='menuIcon active'>
-          <ArrowForwardIosOutlinedIcon fontSize='small' />
+        <div className='backButtonContainer'>
+            <div className={`projectName ${isSideBarOpen?'visible':''}`}>Property Manager For Startup</div>
+           
+          <div
+         style={{
+          left: isSideBarOpen ? '100px' : '0px'
+        }}
+        
+          
+          onClick={()=>{setIsSideBarOpen((prev)=>(!prev))}} className='backIcon active'>
+            {isSideBarOpen?<ArrowBackIosNewOutlinedIcon fontSize='small'/>:<ArrowForwardIosOutlinedIcon fontSize='small' />}
+          
+          </div>
+      
         </div>
         <div className='horizontalLine'></div>
         <div className='menusContainer'>
           {menus.map((menu, i) => (
-            <div
-              key={i}
-              className='menuIcon'
-              onMouseEnter={() => handleMouseEnter(i)}
-              onMouseLeave={() => handleMouseLeave(i)}
-            >
-              {menuHover[i] ? menu.iconOutlined : menu.iconFilled}
+            <div className='menuIconContainer'> 
+              <div
+                key={i}
+                className='menuIcon'
+                onMouseEnter={() => handleMouseEnter(i)}
+                onMouseLeave={() => handleMouseLeave(i)}
+              >
+                {menuHover[i] ? menu.iconOutlined : menu.iconFilled}
+              
+              </div>
+              <div className='menuNameContainer'>
+              {isSideBarOpen && menu.name}
+              </div>
             </div>
           ))}
         </div>

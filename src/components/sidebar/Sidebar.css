@@ -1,15 +1,24 @@
 .sidebarContainer{
-    height: 100%;
+    height:calc(100vh - 75px);
     width: 75px;
-    padding: 20px 10px;
+    padding: 20px;
     color: #c1c5cb;
     background-color: #333333;
+    transition:0.5s ease;
+    position: absolute;
+    z-index: 1;
+}
+
+.sidebarContainer.open{
+    width: 300px;
+
 }
 
 .sidebarContainer .menusContainer{
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 100%;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
 }
@@ -27,7 +36,7 @@
 .sidebarContainer .horizontalLine{
     height: 0.5px;
     background-color: #c1c5cb6d;
-    width: 50%;
+    width: 100%;
 }
 
 .menuIcon{
@@ -45,4 +54,56 @@
 
 .menuIcon.active{
     background-color: #5078e1;
+}
+
+
+.backIcon{
+    color: white;
+    display: flex;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 100%;
+}
+.backIcon:hover{
+    background-color: #5078e1;
+    cursor: pointer;
+}
+
+.backIcon.active{
+    background-color: #5078e1;
+}
+
+.menuIconContainer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+}
+
+.sidebarContentContainer .backButtonContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.backButtonContainer .projectName {
+    left: -100%;
+    position: absolute;
+    transition: unset;
+    opacity: 0;
+}
+
+.backButtonContainer .projectName.visible {
+    left: 10px;
+    visibility: visible;
+    transition:  0.5s;
+    opacity: 1;
+
+}
+
+.menuNameContainer{
+    flex: 1;
 }

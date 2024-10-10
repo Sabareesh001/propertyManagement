@@ -1,6 +1,9 @@
+import CreateQuotation from "../pages/createQuotation/CreateQuotation";
+
 const privateRoutes = [
    {
-    path:'/dashboard'
+    path:'/createQuotation',
+    element:<CreateQuotation/>
    }
 ]
 
