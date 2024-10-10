@@ -1,0 +1,26 @@
+.cardDeleteIconContainer{
+    color: #fd6c6c;
+     background-color: #f5f7fa;
+     padding: 10px;
+     height: 30px;
+     width: 30px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: absolute;
+     border-radius: 100%;
+     top: 0;
+     right: 0;
+     transform: translate(-60%,60%);
+}
+
+.cardContainer{
+    position: relative;
+    height: 100%;
+    overflow: scroll;
+}
+.cardContainer .nameAndPriceContainer{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}

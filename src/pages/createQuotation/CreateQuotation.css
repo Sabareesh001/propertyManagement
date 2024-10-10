@@ -39,18 +39,18 @@ font-size: large;
     width: 230px;
 }
 
-.createQuotationContentContainer{
-    width:100%;
-    flex: 1;
+.createQuotationContentContainer {
+    width: 100%;
     background-color: #f4f6f9;
     padding: 20px;
-
+    flex: 1;
 }
+
 
 .quotationContainer{
     background-color: white;
-    height: 100%;
     display: flex;
+    height: 100%;
     flex-direction: column;
     box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.224);
     border-radius: 10px;
@@ -68,16 +68,16 @@ font-size: large;
 }
 
 .estateInfoContainer{
-    display: flex;
-    height: 100%;
+    display: grid;
+    grid-template-columns: 27.5% 45% 27.5%;
+    flex: 1;
 }
 
 .estateInfoContainer>div{
-    flex: 1;
-    padding: 10px;
+    padding: 10px 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .unitDetailsContainer{
@@ -112,7 +112,7 @@ font-size: large;
 .leadDetailsCardContainer .leadContactInfo{
     display: flex;
     align-items: center;
-    color: rgb(173, 173, 173);
+    color: #525e6f;
     font-size: 12px;
     gap: 10px;
 }
@@ -121,4 +121,42 @@ font-size: large;
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+.circleIcon{
+    font-size: 7px;
+    color: #ced3dd;
+}
+
+.leadContainer .horizontalLine{
+    border-bottom: solid rgba(128, 128, 128, 0.253) 0.5px;
+
+}
+
+.quotationDetailsUnderLeadContainer{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    gap: 10px;
+    row-gap: 20px;
+    font-size: 14px;
+}
+
+.quotationDetailsUnderLeadContainer>div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-weight: bold;
+    color: black;
+}
+.quotationDetailsUnderLeadContainer .title{
+    font-size:12px;
+    color: #98A0AC;
+}
+.graceperiodBracket{
+    color: #98A0AC;
+
+}
+
+.unitsGridContainer{
+    overflow: scroll;
+    height: 100%;
 }
