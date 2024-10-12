@@ -54,34 +54,36 @@ font-size: large;
     flex-direction: column;
     box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.224);
     border-radius: 10px;
-    
+    padding: 10px;
+    padding-top: 0px;
 }
 
 .breadCrumbContainer{
     border-bottom: solid rgba(128, 128, 128, 0.253) 0.5px;
-
 }
 
 .sectionTitle{
-     color: rgba(128, 128, 128, 1);
-     font-weight: bold;
+     color: rgb(87, 87, 87);
+     font-weight: bolder;
+     font-size: 14px;
 }
 
 .estateInfoContainer{
     display: grid;
-    grid-template-columns: 27.5% 45% 27.5%;
+    grid-template-columns: 30% 40% 30%;
     flex: 1;
 }
 
 .estateInfoContainer>div{
-    padding: 10px 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 .unitDetailsContainer{
-    background-color: #f6f8fa;
+    background-color: #F5F7FA;
+    
 }
 
 .buttonsContainer{
@@ -98,7 +100,7 @@ font-size: large;
     align-items: center;
     gap: 10px;
     padding: 5px;
-    border: solid rgba(128, 128, 128, 0.253) 1.5px;
+    border: solid rgba(128, 128, 128, 0.253) 0.5px;
     border-radius: 5px;
 }
 
@@ -159,4 +161,50 @@ font-size: large;
 .unitsGridContainer{
     overflow: scroll;
     height: 100%;
+    width: 100%;
+    scrollbar-width: none;  /* Firefox */
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.QuotationSummaryContentContainer{
+    height: 100%;
+    width: 100%;
+    background-color: #F5F7FA;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.QuotationSummaryContent{
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   padding: 10px;
+}
+.QContentRows:first-child{
+    color: #98A0AC;
+    text-transform:uppercase;
+}
+.QContentRows{
+    color: #4E5A6B;
+    display: flex;
+    font-size: 12px;
+}
+
+.QContentRows>div{
+    flex: 1;
+    text-align: center;
+}
+.QContentRows>div:last-child{
+    text-align: end;
+}
+.QContentRows>div:first-child{
+    text-align: start;
+}
+.QContentRows .money{
+    font-weight: bolder;
+    color: #091B29;
 }

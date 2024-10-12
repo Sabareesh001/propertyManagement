@@ -8,10 +8,11 @@ import ProfileIcon from "../../atoms/profileIcon/ProfileIcon";
 import ManImage from "../../assets/man.jpg";
 import StyledChip from "../../atoms/styledChip/StyledChip";
 import CircleIcon from "@mui/icons-material/Circle";
-import StyledCard from "../../atoms/styledCard/StyledCard";
+import StyledCard from "./styledCard/StyledCard";
 import House from "../../assets/house.jpg";
-import { Grid2 } from "@mui/material";
-
+import { Divider, Grid2 } from "@mui/material";
+import UnitDetailsModal from "./unitDetailsModal/UnitDetailsModal";
+import House2 from "../../assets/house2.png";
 const CreateQuotation = () => {
   const [organizationOptions, setOrganizationOptions] = useState([
     {
@@ -19,6 +20,33 @@ const CreateQuotation = () => {
       label: "Casagrand",
     },
   ]);
+  const [isUnitDetailsModalOpen, setIsUnitDetailsModalOpen] = useState(false);
+  const [selectedUnit,setSelectedUnit] = useState(0);
+  const [unitImageList, setUnitImageList] = useState([
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+    {
+      image: House2,
+    },
+  ]);
+
+
 
   const [breadcrumbs, setBreadCrumbs] = useState([
     {
@@ -42,22 +70,36 @@ const CreateQuotation = () => {
   const [unitDetails, setUnitDetails] = useState([
     {
       image: House,
-    },
-    {
+      name:'Jumeriah Estate',
+      unitId:'UNT-1234',
+      address:'Rubix Apartment, K Tower, Floor 1',
+      company:'Jumeriah Golf Estate',
+      beds:2,
+      baths:2,
+      bhk:2,
+      area:2000
+    },{
       image: House,
-    },
-    {
+      name:'Jumeriah Estate',
+      unitId:'UNT-1234',
+      address:'Rubix Apartment, K Tower, Floor 1',
+      company:'Jumeriah Golf Estate',
+      beds:2,
+      baths:2,
+      bhk:2,
+      area:2000
+    },{
       image: House,
+      name:'Jumeriah Estate',
+      unitId:'UNT-1234',
+      address:'Rubix Apartment, K Tower, Floor 1',
+      company:'Jumeriah Golf Estate',
+      beds:2,
+      baths:2,
+      bhk:2,
+      area:2000
     },
-    {
-      image: House,
-    },
-    {
-        image: House,
-      },
-      {
-        image: House,
-      },
+   
   ]);
 
   return (
@@ -127,25 +169,81 @@ const CreateQuotation = () => {
               <div className="sectionTitle">Unit Details</div>
               <div className="unitsGridContainer">
                 <Grid2
-                height={100}
-                  justifyContent={"center"}
+                  height={100}
                   columnGap={2}
                   rowGap={2}
                   columns={2}
                   container
                 >
-                  {unitDetails?.map((data) => {
+                  {unitDetails?.map((data,i) => {
                     return (
-                      <Grid2 item>
-                        <StyledCard image={data.image} />
+                      <Grid2
+                        
+                        size={0.95}
+                        item
+                      >
+                        <StyledCard onClickFunc={() => {
+                          setIsUnitDetailsModalOpen(true);
+                          setSelectedUnit(i)
+                        }} unitDetails={data} />
                       </Grid2>
                     );
                   })}
+                  <UnitDetailsModal
+                    isOpen={isUnitDetailsModalOpen}
+                    imageList={unitImageList}
+                    unitDetails={unitDetails[selectedUnit]}
+                    onClose={() => {
+                      setIsUnitDetailsModalOpen(false);
+                    }}
+                  />
                 </Grid2>
               </div>
             </div>
             <div className="quotationSummaryContainer">
               <div className="sectionTitle">Quotation Summary</div>
+              <div className="QuotationSummaryContentContainer">
+                <div className="QuotationSummaryContent">
+                  <div className="QContentRows">
+                    <div>Description</div>
+                    <div>Qty</div>
+                    <div>Amount</div>
+                  </div>
+                  <Divider />{" "}
+                  <div className="QContentRows">
+                    <div>Total Amount</div>
+                    <div>3</div>
+                    <div className="money">$ 3,600.00</div>
+                  </div>
+                  <Divider />{" "}
+                  <div className="QContentRows">
+                    <div>Total Discount</div>
+                    <div>10%</div>
+                    <div>-$ 100.00</div>
+                  </div>
+                  <Divider />{" "}
+                  <div className="QContentRows">
+                    <div>Total Refundable</div>
+                    <div>0%</div>
+                    <div>$ 0</div>
+                  </div>
+                  <Divider />{" "}
+                  <div className="QContentRows">
+                    <div>Total Tax</div>
+                    <div>18%</div>
+                    <div className="money">$ 648.00</div>
+                  </div>
+                  <Divider />
+                </div>
+                <div className="QuotationSummaryContent">
+                  <Divider />{" "}
+                  <div className="QContentRows">
+                    <div className="money">Quote Amount</div>
+                    <div></div>
+                    <div className="money">$ 4,148.00</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="buttonsContainer">
