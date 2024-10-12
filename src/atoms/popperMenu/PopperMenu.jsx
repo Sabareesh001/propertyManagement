@@ -1,8 +1,9 @@
 import { ClickAwayListener, Divider, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import './PopperMenu.css';
+import { forwardRef } from 'react';
 
 
-const  PopperMenu = ({menuOptions,anchorRef,isMenuOpen,handleClose})=>{
+const  PopperMenu = forwardRef(function({menuOptions,anchorRef,isMenuOpen,handleClose},ref){
     return(
         
         <Popper
@@ -39,7 +40,11 @@ const  PopperMenu = ({menuOptions,anchorRef,isMenuOpen,handleClose})=>{
                               padding: "0px 10px",
                               color: "#4E5A6B",
                             }}
-                            onClick={handleClose}
+                            onClick={(e)=>{
+                              ref.current = e.target;
+                              handleClose(data.action)
+                              
+                            }}
                           >
                             <div>{data.name}</div>
                           </MenuItem>
@@ -55,6 +60,6 @@ const  PopperMenu = ({menuOptions,anchorRef,isMenuOpen,handleClose})=>{
           )}
         </Popper>
     )
-}
+});
 
 export default  PopperMenu;

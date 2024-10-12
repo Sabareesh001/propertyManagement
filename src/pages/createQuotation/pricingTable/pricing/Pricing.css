@@ -1,0 +1,50 @@
+.pricingContainer{
+    padding: 10px;
+    display: flex;
+    
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+
+
+.pricingContainer .backAndCreatePricingComponent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pricingContainer .pricingOptionsContainer{
+    flex: 1;
+    padding: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    row-gap: 10px;
+
+    gap: 10px;
+}
+.pricingContainer .labelAndComp{
+    display: flex;
+    flex: 1 0 45%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.minMaxRecContainer{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+.minMaxRecContainer>div{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.unitAndQtyContainer{
+    display: flex;
+    gap: 10px;
+}

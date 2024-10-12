@@ -13,6 +13,8 @@ import House from "../../assets/house.jpg";
 import { Divider, Grid2 } from "@mui/material";
 import UnitDetailsModal from "./unitDetailsModal/UnitDetailsModal";
 import House2 from "../../assets/house2.png";
+import PricingTable from "./pricingTable/PricingTable";
+import AddAmenities from "./addAmenities/AddAmenities";
 const CreateQuotation = () => {
   const [organizationOptions, setOrganizationOptions] = useState([
     {
@@ -21,6 +23,8 @@ const CreateQuotation = () => {
     },
   ]);
   const [isUnitDetailsModalOpen, setIsUnitDetailsModalOpen] = useState(false);
+  const [isPricingTableModalOpen,setIsPricingTableModalOpen] = useState(false);
+  const [isAddAmenitiesModalOpen,setIsAddAmenitiesModalOpen] = useState(false);
   const [selectedUnit,setSelectedUnit] = useState(0);
   const [unitImageList, setUnitImageList] = useState([
     {
@@ -46,7 +50,28 @@ const CreateQuotation = () => {
     },
   ]);
 
-
+  const [cardMenuOptions, setCardMenuOptions] = useState([
+    {
+      name: "Add Pricing Component",
+      action: ()=>{setIsPricingTableModalOpen(true)}
+    },
+    {
+      name: "Add Ammenities",
+      action: ()=>{setIsAddAmenitiesModalOpen(true)},
+    },
+    {
+      name: "Add Utitlities",
+      action: null,
+    },
+    {
+      name: "Add Discount",
+      action: null,
+    },
+    {
+      name: "Remove Component",
+      action: null,
+    },
+  ]);
 
   const [breadcrumbs, setBreadCrumbs] = useState([
     {
@@ -112,7 +137,7 @@ const CreateQuotation = () => {
           <div className="sectionName">Create Quotation To Existing Lead</div>
         </div>
         <div className="organizationSelectContainer">
-          <StyledSelect options={organizationOptions} />
+          <StyledSelect borderRadius="15px" background={"#F5F7FA"} options={organizationOptions} />
         </div>
       </div>
       <div className="createQuotationContentContainer">
@@ -185,7 +210,7 @@ const CreateQuotation = () => {
                         <StyledCard onClickFunc={() => {
                           setIsUnitDetailsModalOpen(true);
                           setSelectedUnit(i)
-                        }} unitDetails={data} />
+                        }} unitDetails={data} cardMenuOptions={cardMenuOptions} />
                       </Grid2>
                     );
                   })}
@@ -196,6 +221,16 @@ const CreateQuotation = () => {
                     onClose={() => {
                       setIsUnitDetailsModalOpen(false);
                     }}
+                  />
+                  <PricingTable
+                  isOpen={isPricingTableModalOpen}
+                  onClose={()=>{setIsPricingTableModalOpen(false)}}
+                  />
+                  <AddAmenities
+                  isOpen={isAddAmenitiesModalOpen}
+                  onClose={()=>{setIsAddAmenitiesModalOpen(false)}}
+
+                  
                   />
                 </Grid2>
               </div>

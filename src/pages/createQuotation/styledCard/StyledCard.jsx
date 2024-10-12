@@ -16,45 +16,28 @@ import { useRef, useState } from "react";
 import PopperMenu from "../../../atoms/popperMenu/PopperMenu";
 import StyledButton from "../../../atoms/styledButton/StyledButton";
 
-const StyledCard = ({ unitDetails ,onClickFunc}) => {
+const StyledCard = ({ unitDetails ,onClickFunc,cardMenuOptions}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Initially menu is closed
   const anchorRef = useRef(null);
+  const popperRef = useRef(null);
   const [isDiscountApplied,setIsDiscountApplied] = useState(true);
-   const [cardMenuOptions, setCardMenuOptions] = useState([
-    {
-      name: "Add Pricing Component",
-      action: null,
-    },
-    {
-      name: "Add Ammenities",
-      action: null,
-    },
-    {
-      name: "Add Utitlities",
-      action: null,
-    },
-    {
-      name: "Add Discount",
-      action: null,
-    },
-    {
-      name: "Remove Component",
-      action: null,
-    },
-  ]);
+
   const handleToggle = (e) => {
       setIsMenuOpen((prevOpen) => !prevOpen); // Toggle menu visibility
 
   };
 
-  const handleClose = () => {
+  const handleClose = (action) => {
+    action();
     setIsMenuOpen(false);
   };
 
   return (
     <div
     onClick={(e)=>{
-      if(e.target!==anchorRef.current){
+
+      if(e.target!==anchorRef.current && e.target !== popperRef.current){
+        console.log(popperRef,e.target)
         onClickFunc();
       }
     }}
@@ -115,12 +98,14 @@ const StyledCard = ({ unitDetails ,onClickFunc}) => {
               </div>
             </div>
             <div className="customizeButtonContainer">
-              <StyledButton onClickFunc={handleToggle} reference={anchorRef} haveBorder={false} type="primary" content={<><AddIcon /> Customize</>}/>
+              <StyledButton onClickFunc={handleToggle} reference={anchorRef} haveBorder={false} type="primary" content={<><AddIcon sx={{
+                pointerEvents:'none'
+              }} /> Customize</>}/>
                 
             </div>
           </div>
         </CardContent>
-        <PopperMenu menuOptions={cardMenuOptions} anchorRef={anchorRef} isMenuOpen={isMenuOpen} handleClose={handleClose} />
+        <PopperMenu ref={popperRef} menuOptions={cardMenuOptions} anchorRef={anchorRef} isMenuOpen={isMenuOpen} handleClose={handleClose} />
       </Card>
 
       <div className="cardDeleteIconContainer">

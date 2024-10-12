@@ -2,7 +2,7 @@ import { InputAdornment } from '@mui/material';
 import './SearchBar.css';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-const SearchBar = ({placeholder='Search'})=>{
+const SearchBar = ({placeholder='Search',fullWidth=true})=>{
     return(
         <TextField
          sx={{
@@ -20,7 +20,7 @@ const SearchBar = ({placeholder='Search'})=>{
                 )
             }
          }}
-        fullWidth={true}
+        fullWidth={fullWidth}
         
         placeholder={placeholder}
         size='small'

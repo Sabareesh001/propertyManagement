@@ -1,0 +1,31 @@
+.SubUnitSelect{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: solid #E4E8EE 2px;
+    border-radius: 5px;
+    justify-content: space-between;
+    gap: 10px;
+}
+.SubUnitSelect .nameAndDateContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.SubUnitSelect .profileAndInfoContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.nameAndDateContainer .priceAndDateContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #4E5A6B;
+}
+.priceAndDateContainer .circleIcon{
+    font-size: 10px;
+}

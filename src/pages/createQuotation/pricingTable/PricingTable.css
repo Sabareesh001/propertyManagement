@@ -1,0 +1,17 @@
+.titleAndCloseButtonContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+.pricingLabelsContainer{
+    display: flex;
+    padding:10px 0px;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+}
+.pricingPageContainer{
+    flex: 1;
+    display: flex;
+}
