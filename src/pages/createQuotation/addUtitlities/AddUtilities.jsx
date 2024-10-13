@@ -1,66 +1,66 @@
 import { Box, Dialog, Divider } from '@mui/material';
-import './AddAmenities.css';
+import './AddUtilities.css';
 import CloseIcon from "@mui/icons-material/Close";
-import HotTubIcon from '@mui/icons-material/HotTub';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SubUnitSelect from '../subUnitSelect/SubUnitSelect';
 import { useState } from 'react';
 import StyledButton from '../../../atoms/styledButton/StyledButton';
-const AddAmenities = ({isOpen,onClose})=>{
+const AddUtilities = ({isOpen,onClose})=>{
 
 
-    const [amenities,setAmenities] =  useState([
+    const [utilities,setUtilities] =  useState([
       {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       },
       {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       },
       {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
        end_date:'12 Feb  23'
       }, {
-        name:'Amenities Name',
+        name:'Utilities Name',
         image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
         price:'20.00',
         start_date:'22 Feb',
@@ -72,7 +72,7 @@ const AddAmenities = ({isOpen,onClose})=>{
         <Dialog open={isOpen} onClose={onClose}>
            <Box padding={'20px'} display={'flex'} flexDirection={'column'} rowGap={'10px'} width={460}>
            <div className="titleAndCloseButtonContainer">
-          <div>Add Amenities</div>
+          <div>Add Utilities</div>
           <CloseIcon
             onClick={() => {
               onClose();
@@ -80,20 +80,20 @@ const AddAmenities = ({isOpen,onClose})=>{
           />
         </div>
         <Divider/>
-         <div className='countAndTotalViewLabel'>
+         <div className='countAndTotalViewLabelUtility'>
             <div>
-              <HotTubIcon/>
+              <AutoAwesomeIcon/>
               <div>
-                <b>05</b> Total Amenities
+                <b>05</b> Total Utilities
               </div>
             </div>
             <div>
                 $ 200.00
             </div>
          </div>
-            <div className='AvailableLabel'>Available Amenities</div>
+            <div className='AvailableLabel'>Available Utilities</div>
             <div className='amenitiesList'>
-                {amenities.map((data)=>{
+                {utilities.map((data)=>{
                    return(
                   <SubUnitSelect subbUnitDetails={data} />
 
@@ -107,4 +107,4 @@ const AddAmenities = ({isOpen,onClose})=>{
     )
 }
 
-export default AddAmenities;
+export default AddUtilities;

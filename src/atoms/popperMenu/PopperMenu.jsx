@@ -3,7 +3,7 @@ import './PopperMenu.css';
 import { forwardRef } from 'react';
 
 
-const  PopperMenu = forwardRef(function({menuOptions,anchorRef,isMenuOpen,handleClose},ref){
+const  PopperMenu = forwardRef(function({menuOptions,anchorRef,isMenuOpen,handleClose,onClickDef},ref){
     return(
         
         <Popper
@@ -43,7 +43,7 @@ const  PopperMenu = forwardRef(function({menuOptions,anchorRef,isMenuOpen,handle
                             onClick={(e)=>{
                               ref.current = e.target;
                               handleClose(data.action)
-                              
+                              onClickDef();
                             }}
                           >
                             <div>{data.name}</div>

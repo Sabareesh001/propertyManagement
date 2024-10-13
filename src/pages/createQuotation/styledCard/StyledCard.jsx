@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Button,
-} from "@mui/material";
+import { Card, CardMedia, CardContent, Button } from "@mui/material";
 import "./StyledCard.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import LocalHotelIcon from "@mui/icons-material/LocalHotel";
@@ -12,44 +7,81 @@ import HomeIcon from "@mui/icons-material/Home";
 
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import PopperMenu from "../../../atoms/popperMenu/PopperMenu";
 import StyledButton from "../../../atoms/styledButton/StyledButton";
+import { CreateQuotationContext } from "../../../contexts/createQuotationContext/CreateQuotationContext";
 
-const StyledCard = ({ unitDetails ,onClickFunc,cardMenuOptions}) => {
+const StyledCard = ({
+  unitDetails,
+  onClickFunc,
+  unitIndex,
+  cardMenuOptions,
+  onClickDef,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Initially menu is closed
   const anchorRef = useRef(null);
   const popperRef = useRef(null);
-  const [isDiscountApplied,setIsDiscountApplied] = useState(true);
-
+  const deleteRef = useRef(null);
+  const { currentUnit, setCurrentUnit } = useContext(CreateQuotationContext);
   const handleToggle = (e) => {
-      setIsMenuOpen((prevOpen) => !prevOpen); // Toggle menu visibility
-
+    setIsMenuOpen((prevOpen) => !prevOpen); // Toggle menu visibility
   };
+
+  const [total, setTotal] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0.0);
+  const {units,setUnits} = useContext(CreateQuotationContext)
+  useEffect(() => {
+    setTotal(
+      unitDetails?.primary_pricing?.uom_value +
+        unitDetails?.secondary_pricing?.uom_value +
+        unitDetails?.otcp_pricing?.uom_value +
+        unitDetails?.refundables_pricing?.uom_value +
+        unitDetails?.inventory_pricing?.item_unit_price *
+          unitDetails?.inventory_pricing?.quantity +
+        unitDetails?.parking_pricing?.uom_value || 0.0
+    );
+    setTotalDiscount(
+      (unitDetails?.primary_pricing?.uom_value || 0.0) *
+        ((unitDetails?.primary_pricing?.discount || 0) / 100) +
+        (unitDetails?.secondary_pricing?.uom_value || 0.0) *
+          ((unitDetails?.secondary_pricing?.discount || 0) / 100) +
+        (unitDetails?.otcp_pricing?.uom_value || 0.0) *
+          ((unitDetails?.otcp_pricing?.discount || 0) / 100) +
+        (unitDetails?.refundables_pricing?.uom_value || 0.0) *
+          ((unitDetails?.refundables_pricing?.discount || 0) / 100) +
+        (unitDetails?.inventory_pricing?.item_unit_price || 0.0) *
+          (unitDetails?.inventory_pricing?.quantity || 0) *
+          ((unitDetails?.inventory_pricing?.discount || 0) / 100) +
+        (unitDetails?.parking_pricing?.uom_value || 0.0) *
+          ((unitDetails?.parking_pricing?.discount || 0) / 100) || 0.0
+    );
+  }, [unitDetails,units]);
 
   const handleClose = (action) => {
     action();
+    setCurrentUnit(unitDetails);
     setIsMenuOpen(false);
   };
 
   return (
     <div
-    onClick={(e)=>{
+      onClick={(e) => {
+        if (e.target !== anchorRef.current && e.target !== popperRef.current && e.target !== deleteRef.current) {
+          console.log(popperRef, e.target);
 
-      if(e.target!==anchorRef.current && e.target !== popperRef.current){
-        console.log(popperRef,e.target)
-        onClickFunc();
-      }
-    }}
-
-    className="cardContainer">
+          onClickFunc();
+        }
+      }}
+      className="cardContainer"
+    >
       <Card
         sx={{
           padding: "10px",
           width: "100%",
-          border:'solid rgba(128, 128, 128, 0.253) 0.5px',
-          borderRadius:'10px',
-          boxShadow:'none',
+          border: "solid rgba(128, 128, 128, 0.253) 0.5px",
+          borderRadius: "10px",
+          boxShadow: "none",
           "& .MuiCardContent-root": {
             padding: "0px 10px",
             paddingTop: "10px",
@@ -62,18 +94,29 @@ const StyledCard = ({ unitDetails ,onClickFunc,cardMenuOptions}) => {
           },
         }}
       >
-        <CardMedia sx={{ height: 100, borderRadius: "5px" ,position:'relative'}} image={unitDetails?.image}>
-      {isDiscountApplied &&  <div className="discountAppliedContainer">
-        <div> % Discount Applied</div>
-      </div>}
+        <CardMedia
+          sx={{ height: 100, borderRadius: "5px", position: "relative" }}
+          image={unitDetails?.image}
+        >
+          {(totalDiscount>0) && (
+            <div className="discountAppliedContainer">
+              <div> % Discount Applied</div>
+            </div>
+          )}
         </CardMedia>
-       
+
         <CardContent>
           <div className="cardContentContainer">
             <div className="UnitInfoContainer">
               <div className="nameAndPriceContainer">
                 <div>{unitDetails.name}</div>
-                <div style={{color:isDiscountApplied?'#FF9340':''}}>$1,200</div>
+                <div
+                  style={{
+                    color: (totalDiscount>0) ? "#FF9340" : "",
+                  }}
+                >
+                  $ {(total-totalDiscount).toFixed(2)}
+                </div>
               </div>
               <div className="companyNameAndEstate">
                 <div>{unitDetails.company}</div>
@@ -98,20 +141,44 @@ const StyledCard = ({ unitDetails ,onClickFunc,cardMenuOptions}) => {
               </div>
             </div>
             <div className="customizeButtonContainer">
-              <StyledButton onClickFunc={handleToggle} reference={anchorRef} haveBorder={false} type="primary" content={<><AddIcon sx={{
-                pointerEvents:'none'
-              }} /> Customize</>}/>
-                
+              <StyledButton
+                onClickFunc={handleToggle}
+                reference={anchorRef}
+                haveBorder={false}
+                type="primary"
+                content={
+                  <>
+                    <AddIcon
+                      sx={{
+                        pointerEvents: "none",
+                      }}
+                    />{" "}
+                    Customize
+                  </>
+                }
+              />
             </div>
           </div>
         </CardContent>
-        <PopperMenu ref={popperRef} menuOptions={cardMenuOptions} anchorRef={anchorRef} isMenuOpen={isMenuOpen} handleClose={handleClose} />
+        <PopperMenu
+          onClickDef={onClickDef}
+          ref={popperRef}
+          menuOptions={cardMenuOptions}
+          anchorRef={anchorRef}
+          isMenuOpen={isMenuOpen}
+          handleClose={handleClose}
+        />
       </Card>
 
-      <div className="cardDeleteIconContainer">
-        <DeleteOutlineOutlinedIcon fontSize="inherit" />
+      <div ref={deleteRef} onClick={()=>{
+        setUnits((prev)=>{
+          const newPrev = [...prev];
+          newPrev.splice(unitIndex,1);
+          return(newPrev);
+        })
+      }} className="cardDeleteIconContainer">
+        <DeleteOutlineOutlinedIcon sx={{pointerEvents:'none'}} fontSize="inherit" />
       </div>
-    
     </div>
   );
 };

@@ -17,4 +17,5 @@
     font-size: 18px;
     display: flex;
     gap: 10px;
+    cursor: pointer;
 }

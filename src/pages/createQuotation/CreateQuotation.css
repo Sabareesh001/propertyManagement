@@ -70,7 +70,7 @@ font-size: large;
 
 .estateInfoContainer{
     display: grid;
-    grid-template-columns: 30% 40% 30%;
+    grid-template-columns: 33% 33% 33%;
     flex: 1;
 }
 
@@ -191,7 +191,7 @@ font-size: large;
 .QContentRows{
     color: #4E5A6B;
     display: flex;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .QContentRows>div{

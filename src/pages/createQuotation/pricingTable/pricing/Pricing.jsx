@@ -9,6 +9,7 @@ import StyledInput from "../../../../atoms/styledInput/StyledInput";
 
 const Pricing = ({
   optionInfo,
+  unitData,
   onClose,
   showMinMax = false,
   pricingUnit = "",
@@ -33,14 +34,29 @@ const Pricing = ({
     },
   
   ]);
+
+  const [pricingComponentOptions,setPricingComponentOptions] = useState([
+    {
+      label:'Pricing Component',
+      value:1
+    }
+  ])
+
+  const [taxGroupOptions,setTaxGroupOptions] = useState([
+    {
+      label:'GST',
+      value:1
+    }
+  ])
+
   const [changeableOptions, setChangableOptions] = useState([
     {
       name: "Yes",
-      value: "1",
+      value: 1,
     },
     {
       name: "No",
-      value: "2",
+      value: 2,
     },
   ]);
 
@@ -91,7 +107,7 @@ const Pricing = ({
           >
             Revenue Type
           </InputLabel>
-          <ToggleButtonList buttonList={revenueTypes} />
+          <ToggleButtonList value={unitData?.revenue_type}  buttonList={revenueTypes} />
         </div>
         <div className="labelAndComp">
           <InputLabel
@@ -102,7 +118,7 @@ const Pricing = ({
           >
             Pricing Component
           </InputLabel>
-          <StyledSelect size={"small"} fullWidth={false}/>
+          <StyledSelect value={unitData?.pricing_component} options={pricingComponentOptions} size={"small"} fullWidth={false}/>
         </div>
         <div className="labelAndComp">
           <InputLabel
@@ -113,7 +129,7 @@ const Pricing = ({
           >
             Tax Group for Pricing Component
           </InputLabel>
-          <StyledSelect size={"small"} fullWidth={false} />
+          <StyledSelect options={taxGroupOptions} value={unitData?.tax_group_for_pricing} size={"small"} fullWidth={false} />
         </div>
        {showChangable && <div className="labelAndComp">
           <InputLabel
@@ -122,9 +138,9 @@ const Pricing = ({
               fontSize: "12px",
             }}
           >
-            Revenue Type
+            Changable
           </InputLabel>
-          <ToggleButtonList buttonList={changeableOptions} />
+          <ToggleButtonList value={unitData?.changable} buttonList={changeableOptions} />
         </div>}
       {showPricingBasedOn && <div className="labelAndComp">
           <InputLabel
@@ -135,7 +151,7 @@ const Pricing = ({
           >
              Pricing Based On
           </InputLabel>
-          <ToggleButtonList buttonList={PricingBasedOnOptions} />
+          <ToggleButtonList value={unitData?.pricing_based_on} buttonList={PricingBasedOnOptions} />
         </div>}
        {showComponentBasedOn && <div className="labelAndComp">
           <InputLabel
@@ -146,7 +162,7 @@ const Pricing = ({
           >
             Component Based On
           </InputLabel>
-          <ToggleButtonList buttonList={componentBasedOnOptions} />
+          <ToggleButtonList value={unitData?.component_based_on} buttonList={componentBasedOnOptions} />
         </div>}
         {showUOM && (
           <div style={{flexBasis:'100%'}} className="labelAndComp">
@@ -158,7 +174,7 @@ const Pricing = ({
             >
               UOM Value
             </InputLabel>
-            <StyledInput fullWidth={true} endUnit={pricingUnit} />
+            <StyledInput inputType={"Number"} value={unitData?.uom_value} fullWidth={true} endUnit={pricingUnit} />
           </div>
         )}
        {  showUnitAndQty && <div className="unitAndQtyContainer">
@@ -169,9 +185,9 @@ const Pricing = ({
                     fontSize: "12px",
                   }}
                 >
-                  Revenue Type
+                 Item Unit Price
                 </InputLabel>
-                <StyledInput endUnit={"$"} />
+                <StyledInput inputType={'Number'} value={unitData?.item_unit_price} endUnit={"$"} />
               </div>
               <div className="labelAndComp">
                 <InputLabel
@@ -180,9 +196,9 @@ const Pricing = ({
                     fontSize: "12px",
                   }}
                 >
-                  Revenue Type
+                  Quantity
                 </InputLabel>
-                <StyledInput endUnit={"Qty"} />
+                <StyledInput  inputType={'Number'} value={unitData?.quantity} endUnit={"Qty"} />
               </div>
          </div>}
         {showMinMax && (
@@ -208,7 +224,7 @@ const Pricing = ({
                 value={100}
                 variant="determinate"
               />
-              <StyledInput startUnit={"$"} fullWidth={false} />
+              <StyledInput inputType={"Number"} value={unitData?.max} startUnit={"$"} fullWidth={false} />
               <InputLabel
                 sx={{
                   color: "#98A0AC",
@@ -239,7 +255,7 @@ const Pricing = ({
                 value={75}
                 variant="determinate"
               />
-              <StyledInput startUnit={"$"} fullWidth={false} />
+              <StyledInput inputType={"Number"} value={unitData?.recommended} startUnit={"$"} fullWidth={false} />
               <InputLabel
                 sx={{
                   color: "#98A0AC",
@@ -272,7 +288,7 @@ const Pricing = ({
                 variant="determinate"
               />
 
-              <StyledInput startUnit={"$"} fullWidth={false} />
+              <StyledInput inputType={"Number"} value={unitData?.min} startUnit={"$"} fullWidth={false} />
               <InputLabel
                 sx={{
                   color: "#98A0AC",

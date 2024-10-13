@@ -1,11 +1,19 @@
+.SubUnitSelectContainer{
+    border: solid #E4E8EE 2px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
 .SubUnitSelect{
     display: flex;
     align-items: center;
-    padding: 10px;
-    border: solid #E4E8EE 2px;
-    border-radius: 5px;
     justify-content: space-between;
     gap: 10px;
+    padding: 10px;
+
 }
 .SubUnitSelect .nameAndDateContainer{
     display: flex;
@@ -16,7 +24,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
 }
 
 .nameAndDateContainer .priceAndDateContainer{
@@ -28,4 +35,11 @@
 }
 .priceAndDateContainer .circleIcon{
     font-size: 10px;
+}
+
+.checkAndPrice{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #4E5A6B;
 }

@@ -1,21 +1,31 @@
 import "./CreateQuotation.css";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 import StyledSelect from "../../atoms/styledSelect/StyledSelect";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BreadCrumbs from "../../atoms/breadcrumbs/BreadCrumbs";
 import StyledButton from "../../atoms/styledButton/StyledButton";
 import ProfileIcon from "../../atoms/profileIcon/ProfileIcon";
-import ManImage from "../../assets/man.jpg";
+
 import StyledChip from "../../atoms/styledChip/StyledChip";
 import CircleIcon from "@mui/icons-material/Circle";
 import StyledCard from "./styledCard/StyledCard";
-import House from "../../assets/house.jpg";
 import { Divider, Grid2 } from "@mui/material";
 import UnitDetailsModal from "./unitDetailsModal/UnitDetailsModal";
-import House2 from "../../assets/house2.png";
+
 import PricingTable from "./pricingTable/PricingTable";
 import AddAmenities from "./addAmenities/AddAmenities";
+import AddUtilities from "./addUtitlities/AddUtilities";
+
+import { CreateQuotationContext } from "../../contexts/createQuotationContext/CreateQuotationContext";
+
 const CreateQuotation = () => {
+  const {
+    units,
+    unitImageList,
+    leadDetails,
+    quotationDetails,
+    quotationSummary,
+  } = useContext(CreateQuotationContext);
   const [organizationOptions, setOrganizationOptions] = useState([
     {
       value: 1,
@@ -23,53 +33,45 @@ const CreateQuotation = () => {
     },
   ]);
   const [isUnitDetailsModalOpen, setIsUnitDetailsModalOpen] = useState(false);
-  const [isPricingTableModalOpen,setIsPricingTableModalOpen] = useState(false);
-  const [isAddAmenitiesModalOpen,setIsAddAmenitiesModalOpen] = useState(false);
-  const [selectedUnit,setSelectedUnit] = useState(0);
-  const [unitImageList, setUnitImageList] = useState([
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-  ]);
+  const [isPricingTableModalOpen, setIsPricingTableModalOpen] = useState(false);
+  const [isAddAmenitiesModalOpen, setIsAddAmenitiesModalOpen] = useState(false);
+  const [isAddUtilitiesModalOpen, setIsAddUtilitiesModalOpen] = useState(false);
+  const [isEditingDiscount, setIsEditingDiscount] = useState(false);
+  const [isDeletingComponents, setIsDeletingComponents] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const [cardMenuOptions, setCardMenuOptions] = useState([
     {
       name: "Add Pricing Component",
-      action: ()=>{setIsPricingTableModalOpen(true)}
+      action: () => {
+        setIsPricingTableModalOpen(true);
+      },
     },
     {
       name: "Add Ammenities",
-      action: ()=>{setIsAddAmenitiesModalOpen(true)},
+      action: () => {
+        setIsAddAmenitiesModalOpen(true);
+      },
     },
     {
       name: "Add Utitlities",
-      action: null,
+      action: () => {
+        setIsAddUtilitiesModalOpen(true);
+      },
     },
     {
       name: "Add Discount",
-      action: null,
+      action: () => {
+        setIsEditingDiscount(true);
+        setIsUnitDetailsModalOpen(true);
+      },
     },
     {
       name: "Remove Component",
-      action: null,
+      action: () => {
+        setIsDeletingComponents(true);
+        setIsUnitDetailsModalOpen(true);
+      },
     },
   ]);
 
@@ -92,41 +94,6 @@ const CreateQuotation = () => {
     },
   ]);
 
-  const [unitDetails, setUnitDetails] = useState([
-    {
-      image: House,
-      name:'Jumeriah Estate',
-      unitId:'UNT-1234',
-      address:'Rubix Apartment, K Tower, Floor 1',
-      company:'Jumeriah Golf Estate',
-      beds:2,
-      baths:2,
-      bhk:2,
-      area:2000
-    },{
-      image: House,
-      name:'Jumeriah Estate',
-      unitId:'UNT-1234',
-      address:'Rubix Apartment, K Tower, Floor 1',
-      company:'Jumeriah Golf Estate',
-      beds:2,
-      baths:2,
-      bhk:2,
-      area:2000
-    },{
-      image: House,
-      name:'Jumeriah Estate',
-      unitId:'UNT-1234',
-      address:'Rubix Apartment, K Tower, Floor 1',
-      company:'Jumeriah Golf Estate',
-      beds:2,
-      baths:2,
-      bhk:2,
-      area:2000
-    },
-   
-  ]);
-
   return (
     <div className="createQuotationContainer">
       <div className="topBar">
@@ -137,7 +104,11 @@ const CreateQuotation = () => {
           <div className="sectionName">Create Quotation To Existing Lead</div>
         </div>
         <div className="organizationSelectContainer">
-          <StyledSelect borderRadius="15px" background={"#F5F7FA"} options={organizationOptions} />
+          <StyledSelect
+            borderRadius="15px"
+            background={"#F5F7FA"}
+            options={organizationOptions}
+          />
         </div>
       </div>
       <div className="createQuotationContentContainer">
@@ -150,17 +121,21 @@ const CreateQuotation = () => {
               <div className="sectionTitle">Lead Details</div>
               <div className="leadDetailsCardContainer">
                 <div>
-                  <ProfileIcon image={ManImage} type={"rounded"} />
+                  <ProfileIcon image={leadDetails?.image} type={"rounded"} />
                 </div>
                 <div className="leadOnlyDetailsContainer">
                   <div className="nameAndChipContainer">
-                    <div>Tom Cruise</div>
-                    <StyledChip content={"Prospect"} />
+                    <div>{leadDetails?.name}</div>
+                    <StyledChip
+                      content={
+                        leadDetails?.isProspect ? "Prospect" : "Customer"
+                      }
+                    />
                   </div>
                   <div className="leadContactInfo">
-                    +91 9090808012
+                    {leadDetails?.mobile}
                     <CircleIcon className="circleIcon" fontSize="inhereit" />
-                    Tomcruise2515@mail.com
+                    {leadDetails?.email}
                   </div>
                 </div>
               </div>
@@ -170,20 +145,20 @@ const CreateQuotation = () => {
                 <div className="quotationDetailsUnderLeadContainer">
                   <div>
                     <div className="title">Lease Start Date </div>
-                    <div>30 jan 22</div>
+                    <div>{quotationDetails?.lease_start_date}</div>
                   </div>
                   <div>
                     <div className="title">Lease End Date </div>
-                    <div>30 jan 22</div>
+                    <div>{quotationDetails?.lease_end_date}</div>
                   </div>
                   <div>
                     <div className="title">Rent Start Date </div>
-                    <div>30 jan 22</div>
+                    <div>{quotationDetails?.rent_start_date}</div>
                   </div>
                   <div>
                     <div className="title">Grace period </div>
                     <div>
-                      90 days{" "}
+                      {quotationDetails?.grace_period} days{" "}
                       <div className="graceperiodBracket">{"(Beginning)"}</div>
                     </div>
                   </div>
@@ -200,37 +175,58 @@ const CreateQuotation = () => {
                   columns={2}
                   container
                 >
-                  {unitDetails?.map((data,i) => {
+                  {units?.map((data, i) => {
                     return (
-                      <Grid2
-                        
-                        size={0.95}
-                        item
-                      >
-                        <StyledCard onClickFunc={() => {
-                          setIsUnitDetailsModalOpen(true);
-                          setSelectedUnit(i)
-                        }} unitDetails={data} cardMenuOptions={cardMenuOptions} />
+                      <Grid2 size={0.95} item>
+                        <StyledCard
+                          onClickDef = {()=>{setSelectedUnit(i)}}
+                          onClickFunc={() => {
+                            setIsUnitDetailsModalOpen(true);
+                            setSelectedUnit(i);
+                          }}
+                          unitIndex={i}
+                          unitDetails={data}
+                          cardMenuOptions={cardMenuOptions}
+                        />
                       </Grid2>
                     );
                   })}
                   <UnitDetailsModal
+                  key={selectedUnit}
                     isOpen={isUnitDetailsModalOpen}
                     imageList={unitImageList}
-                    unitDetails={unitDetails[selectedUnit]}
+                    editDiscount={isEditingDiscount}
+                    isDeleting={isDeletingComponents}
+                    unitDetails={units[selectedUnit]}
+                    unitIndex={selectedUnit}
                     onClose={() => {
                       setIsUnitDetailsModalOpen(false);
+                      setSelectedUnit(null);
+                      if (isEditingDiscount) {
+                        setIsEditingDiscount(false);
+                      }
+                      if (isDeletingComponents) {
+                        setIsDeletingComponents(false);
+                      }
                     }}
                   />
                   <PricingTable
-                  isOpen={isPricingTableModalOpen}
-                  onClose={()=>{setIsPricingTableModalOpen(false)}}
+                    isOpen={isPricingTableModalOpen}
+                    onClose={() => {
+                      setIsPricingTableModalOpen(false);
+                    }}
                   />
                   <AddAmenities
-                  isOpen={isAddAmenitiesModalOpen}
-                  onClose={()=>{setIsAddAmenitiesModalOpen(false)}}
-
-                  
+                    isOpen={isAddAmenitiesModalOpen}
+                    onClose={() => {
+                      setIsAddAmenitiesModalOpen(false);
+                    }}
+                  />
+                  <AddUtilities
+                    isOpen={isAddUtilitiesModalOpen}
+                    onClose={() => {
+                      setIsAddUtilitiesModalOpen(false);
+                    }}
                   />
                 </Grid2>
               </div>
@@ -247,26 +243,28 @@ const CreateQuotation = () => {
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Amount</div>
-                    <div>3</div>
-                    <div className="money">$ 3,600.00</div>
+                    <div>{units?.length}</div>
+                    <div className="money">
+                      $ {quotationSummary?.total_amount}
+                    </div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Discount</div>
-                    <div>10%</div>
-                    <div>-$ 100.00</div>
+                    <div>{((quotationSummary?.total_discount/quotationSummary?.total_amount)*100).toFixed(2)}%</div>
+                    <div>-$ {quotationSummary?.total_discount}</div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Refundable</div>
                     <div>0%</div>
-                    <div>$ 0</div>
+                    <div>$ {quotationSummary?.refundable}</div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Tax</div>
                     <div>18%</div>
-                    <div className="money">$ 648.00</div>
+                    <div className="money">$ {quotationSummary?.total_tax}</div>
                   </div>
                   <Divider />
                 </div>
@@ -275,7 +273,13 @@ const CreateQuotation = () => {
                   <div className="QContentRows">
                     <div className="money">Quote Amount</div>
                     <div></div>
-                    <div className="money">$ 4,148.00</div>
+                    <div className="money">
+                      ${" "}
+                      {quotationSummary?.total_amount +
+                        quotationSummary?.total_refundable -
+                        quotationSummary?.total_discount +
+                        quotationSummary?.total_tax}
+                    </div>
                   </div>
                 </div>
               </div>

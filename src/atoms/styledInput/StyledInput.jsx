@@ -1,14 +1,27 @@
 import { Input, TextField } from '@mui/material';
 import './StyledInput.css';
+import { useState } from 'react';
 
-const StyledInput = ({type='outlined',startUnit,size="small",fullWidth=true,endUnit=''})=>{
+const StyledInput = ({type='outlined',value='',inputType,startUnit,size="small",fullWidth=true,endUnit=''})=>{
+    const [inputValue,setInputValue] = useState(value);
     return(
         <TextField 
-
+        value={inputValue}
+      
+        type={inputType}
+        onChange={(e,val)=>{setInputValue(val)}}
         sx={{
             '& .MuiOutlinedInput-notchedOutline':{
                 border:'solid #E4E8EE 2px'
-            }
+            },
+             "& input[type=number]": {
+                MozAppearance: 'textfield',
+                appearance: 'textfield',
+              },
+              "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button": {
+                WebkitAppearance: 'none',
+                margin: 0,
+              },
         }}
 
         slotProps={{

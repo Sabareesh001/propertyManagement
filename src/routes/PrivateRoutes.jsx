@@ -1,9 +1,10 @@
+import { CreateOuotationContextProvider } from "../contexts/createQuotationContext/CreateQuotationContext";
 import CreateQuotation from "../pages/createQuotation/CreateQuotation";
 
 const privateRoutes = [
    {
     path:'/createQuotation',
-    element:<CreateQuotation/>
+    element:<CreateOuotationContextProvider component={<CreateQuotation/>}/>
    }
 ]
 

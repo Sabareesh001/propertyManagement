@@ -1,7 +1,15 @@
 import "./PricingLabel.css";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-const PricingLabel = ({ name, action, background, color, index ,showNext=true}) => {
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import { Tooltip } from "@mui/material";
+const PricingLabel = ({
+  name,
+  action,
+  background,
+  color,
+  index,
+  showNext = true,
+}) => {
   return (
     <div
       className="pricingLabelContainer"
@@ -12,26 +20,46 @@ const PricingLabel = ({ name, action, background, color, index ,showNext=true}) 
       onClick={action}
     >
       <div className="indexAndNameContainer">
-       {index!==undefined &&  <div
-          style={{
-            color: 'white',
-            padding:'5px',
-            borderRadius:'20px',
-            
-            backgroundColor: color,
-          }}
-        >
-          {(index + 1).toString().padStart(2, "0")}
-        </div>}
+        {index !== undefined && (
+          <div
+            style={{
+              color: "white",
+              padding: "5px",
+              borderRadius: "20px",
+
+              backgroundColor: color,
+            }}
+          >
+            {(index + 1).toString().padStart(2, "0")}
+          </div>
+        )}
         {name}
       </div>
       <div className="infoAndNextIconContainer">
-          <InfoOutlinedIcon 
-          fontSize="inherit"
-          sx={{
-            color:'#CED3DD'
-          }}/>
-         {showNext && <ArrowForwardIosOutlinedIcon fontSize="inherit"/>}
+        <Tooltip
+         componentsProps={{
+          tooltip: {
+            sx: {
+              bgcolor: 'common.white',
+              color:'common.black',
+              padding:'10px',
+              fontSize:'12px',
+              '& .MuiTooltip-arrow': {
+                color: 'common.black',
+              },
+            },
+          },
+        }}
+        
+        placement="top" title="Base rent or monthly rental amount. you can have only one primary pricing component per property.">
+          <InfoOutlinedIcon
+            fontSize="inherit"
+            sx={{
+              color: "#CED3DD",
+            }}
+          />
+        </Tooltip>
+        {showNext && <ArrowForwardIosOutlinedIcon fontSize="inherit" />}
       </div>
     </div>
   );

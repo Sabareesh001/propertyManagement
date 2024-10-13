@@ -2,11 +2,12 @@ import { Box, Dialog, Divider } from "@mui/material";
 import "./PricingTable.css";
 import CloseIcon from "@mui/icons-material/Close";
 import PricingLabel from "./pricingLabel/PricingLabel";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Pricing from "./pricing/Pricing";
+import { CreateQuotationContext } from "../../../contexts/createQuotationContext/CreateQuotationContext";
 const PricingTable = ({ isOpen, onClose }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-
+  const {currentUnit,setCurrentUnit} = useContext(CreateQuotationContext)
   const PricingOptions = [
     {
       name: "Primary",
@@ -15,6 +16,7 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.primary_pricing}
             pricingUnit="SAR / Total"
             showMinMax={true}
             onClose={() => {
@@ -34,6 +36,7 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.secondary_pricing}
           pricingUnit="$ / Monthly"
             onClose={() => {
               setSelectedOption(null);
@@ -51,6 +54,8 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.otcp_pricing}
+
           pricingUnit="$ / Monthly"
             onClose={() => {
               setSelectedOption(null);
@@ -68,6 +73,8 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.refundables_pricing}
+
           pricingUnit="$ / Monthly"
             onClose={() => {
               setSelectedOption(null);
@@ -86,6 +93,7 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.inventory_pricing}
           showChangable={false}
           showPricingBasedOn={true}
           showComponentBasedOn={false}
@@ -107,10 +115,13 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
+          unitData={currentUnit?.parking_pricing}
+
           pricingUnit="$ / Monthly"
             onClose={() => {
               setSelectedOption(null);
             }}
+            showChangable={true}
             optionInfo={data}
           />
         );

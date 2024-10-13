@@ -17,3 +17,12 @@
     color: #98A0AC;
     font-size: 14px;
 }
+
+.amenitiesList{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: scroll;
+    scrollbar-width: none;
+    max-height: 500px;
+}

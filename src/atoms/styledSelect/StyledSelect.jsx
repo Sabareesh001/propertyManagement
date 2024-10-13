@@ -1,7 +1,7 @@
 import { FormControl, MenuItem, Select, Typography } from "@mui/material";
 import "./StyledSelect.css";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const StyledSelect = ({
   options,
@@ -10,6 +10,8 @@ const StyledSelect = ({
   borderRadius = "5px",
   border = "#E4E8EE",
   fullWidth = true,
+  value=null,
+  sx
 }) => {
   const [selectedValue, setSelectedValue] = useState({
     value: "",
@@ -26,6 +28,12 @@ const StyledSelect = ({
     }
   };
 
+ useEffect(()=>{
+    if(value !== null){
+      setSelectedValue(options.find((data)=>(data.value===value)))
+    }
+ },[options,value])
+
   return (
     <FormControl fullWidth={fullWidth} size="small">
       <Select
@@ -35,6 +43,7 @@ const StyledSelect = ({
         value={selectedValue.value}
         onChange={handleChange}
         sx={{
+          ...sx,
           "& .MuiOutlinedInput-notchedOutline": {
             border: "none",
           },

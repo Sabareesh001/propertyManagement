@@ -58,6 +58,14 @@
     justify-content: space-between;
     padding: 20px;
 }
+
+.secondInnerContainer>div{
+    display: flex;
+    flex: 1;
+    justify-content: end;
+}
+
+
 .pricingDetailsRowContainer>div{
     display: flex;
 }
@@ -89,10 +97,14 @@
     font-size: 12px;
 }
 
+
 .pricingDetailsRowContainer{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow: scroll;
+    height: 450px;
+    scrollbar-width: none;
 }
 .totalContainer{
  display: flex;
@@ -126,4 +138,22 @@
     gap: 10px;
     font-weight: bold;
 
+}
+
+.discountEditAndSelect{
+    display: flex;
+    gap: 10px;
+}
+.deleteComponentContainer .deleteButton{
+    background-color:#ffecec;
+    color: #ff4b4b;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.deleteComponentContainer{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
 }
