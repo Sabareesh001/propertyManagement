@@ -150,18 +150,23 @@ const CreateOuotationContextProvider = ({ component }) => {
     },
   ]);
 
+  useEffect(()=>{
+      console.log(quotationSummary)
+  },[quotationSummary])
+
   useEffect(() => {
+    console.log(units)
     let total = 0.0;
     let total_discount = 0.0;
+    let total_refundables = 0.0;
     units.forEach((unitDetails) => {
         total += 
         (unitDetails?.primary_pricing?.uom_value || 0.0) +
         (unitDetails?.secondary_pricing?.uom_value || 0.0) +
         (unitDetails?.otcp_pricing?.uom_value || 0.0) +
-        (unitDetails?.refundables_pricing?.uom_value || 0.0) +
         ((unitDetails?.inventory_pricing?.item_unit_price || 0.0) * (unitDetails?.inventory_pricing?.quantity || 0)) +
         (unitDetails?.parking_pricing?.uom_value || 0.0);
-      
+       total_refundables+=(unitDetails?.refundables_pricing?.uom_value || 0.0);
       // Calculate total_discount based on discount object (assuming discount percentages)
       total_discount += 
       (unitDetails?.primary_pricing?.uom_value || 0.0) * ((unitDetails?.primary_pricing?.discount || 0) / 100) +
@@ -172,10 +177,14 @@ const CreateOuotationContextProvider = ({ component }) => {
       (unitDetails?.parking_pricing?.uom_value || 0.0) * ((unitDetails?.parking_pricing?.discount || 0) / 100);
     
     });
+
+
+
     setQuotationSummary((prev)=>{
         const newPrev = {...prev};
         newPrev.total_amount = total;
         newPrev.total_discount = total_discount;
+        newPrev.total_refundable = total_refundables;
         return(newPrev);
     })
   }, [units]);

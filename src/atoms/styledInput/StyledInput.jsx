@@ -2,14 +2,13 @@ import { Input, TextField } from '@mui/material';
 import './StyledInput.css';
 import { useState } from 'react';
 
-const StyledInput = ({type='outlined',value='',inputType,startUnit,size="small",fullWidth=true,endUnit=''})=>{
-    const [inputValue,setInputValue] = useState(value);
+const StyledInput = ({type='outlined',value='',inputType,startUnit,size="small",fullWidth=true,endUnit='',inputValue,setInputValue})=>{
     return(
         <TextField 
         value={inputValue}
-      
+
         type={inputType}
-        onChange={(e,val)=>{setInputValue(val)}}
+        onChange={(e)=>{setInputValue(e)}}
         sx={{
             '& .MuiOutlinedInput-notchedOutline':{
                 border:'solid #E4E8EE 2px'

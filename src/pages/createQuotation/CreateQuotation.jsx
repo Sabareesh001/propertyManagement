@@ -234,7 +234,7 @@ const CreateQuotation = () => {
             <div className="quotationSummaryContainer">
               <div className="sectionTitle">Quotation Summary</div>
               <div className="QuotationSummaryContentContainer">
-                <div className="QuotationSummaryContent">
+            {  (quotationSummary!==undefined) && <div className="QuotationSummaryContent">
                   <div className="QContentRows">
                     <div>Description</div>
                     <div>Qty</div>
@@ -245,29 +245,29 @@ const CreateQuotation = () => {
                     <div>Total Amount</div>
                     <div>{units?.length}</div>
                     <div className="money">
-                      $ {quotationSummary?.total_amount}
+                      $ {quotationSummary?.total_amount?.toFixed(2)}
                     </div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Discount</div>
                     <div>{((quotationSummary?.total_discount/quotationSummary?.total_amount)*100).toFixed(2)}%</div>
-                    <div>-$ {quotationSummary?.total_discount}</div>
+                    <div>-$ {quotationSummary?.total_discount.toFixed(2)}</div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Refundable</div>
-                    <div>0%</div>
-                    <div>$ {quotationSummary?.refundable}</div>
+                    <div>{((quotationSummary?.total_refundable/quotationSummary?.total_amount)*100).toFixed(2)}%</div>
+                    <div>$ {quotationSummary?.total_refundable?.toFixed(2) || 0.00}</div>
                   </div>
                   <Divider />{" "}
                   <div className="QContentRows">
                     <div>Total Tax</div>
                     <div>18%</div>
-                    <div className="money">$ {quotationSummary?.total_tax}</div>
+                    <div className="money">$ {quotationSummary?.total_tax?.toFixed(2)}</div>
                   </div>
                   <Divider />
-                </div>
+                </div>}
                 <div className="QuotationSummaryContent">
                   <Divider />{" "}
                   <div className="QContentRows">
@@ -275,10 +275,10 @@ const CreateQuotation = () => {
                     <div></div>
                     <div className="money">
                       ${" "}
-                      {quotationSummary?.total_amount +
+                      {(quotationSummary?.total_amount +
                         quotationSummary?.total_refundable -
                         quotationSummary?.total_discount +
-                        quotationSummary?.total_tax}
+                        quotationSummary?.total_tax).toFixed(2)}
                     </div>
                   </div>
                 </div>

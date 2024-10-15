@@ -31,102 +31,201 @@ const UnitDetailsModal = ({
   editDiscount,
   isDeleting,
 }) => {
-  const {units,setUnits} = useContext(CreateQuotationContext);
-  const [unitDetails,setUnitDetails] = useState([]);
-  useEffect(()=>{
-    setUnitDetails(units[unitIndex]);
-  },[units,unitIndex])
-
-
-  const [unitPriceBills,setUnitPricesBills] = useState([])
-
-
-  useEffect(()=>{
-     setUnitPricesBills([{
-      name:'Primary Pricing',
-      amount:unitDetails?.primary_pricing?.uom_value || 0.00,
-      discount: unitDetails?.primary_pricing?.discount,
-      onDelete: ()=>{
-         setUnits((prev)=>{
-          const newPrev = [...prev];
-          newPrev[unitIndex].primary_pricing.uom_value = 0.00;
-          return(newPrev)
-         })
-      }
+  const discountTypeOptions = [
+    {
+      label: "%",
+      value: 2,
+      toPercent: (value,total)=>{
+         return(value);
+      },
+      reduce: (percentage, total) => {
+        console.log(percentage, total);
+        return percentage;
+      },
     },
     {
-      name:'Secondary Pricing',
-      amount:unitDetails?.secondary_pricing?.uom_value || 0.00,
-      discount: unitDetails?.secondary_pricing?.discount,
-      onDelete: ()=>{
-        setUnits((prev)=>{
-         const newPrev = [...prev];
-         newPrev[unitIndex].secondary_pricing.uom_value = 0.00
-         return(newPrev)
-        })
-     }
-    },
-    {
-      name:'One Time Cost Pricing',
-      amount:unitDetails?.otcp_pricing?.uom_value || 0.00,
-      discount:unitDetails?.otcp_pricing?.discount,
-      onDelete: ()=>{
-        setUnits((prev)=>{
-         const newPrev = [...prev];
-         newPrev[unitIndex].otcp_pricing.uom_value = 0.00
-         return(newPrev)
-        })
-     }
-    },
-    {
-      name:'Refundable Pricing', 
-      amount:unitDetails?.refundables_pricing?.uom_value || 0.00,
-      discount:unitDetails?.refundables_pricing?.discount,
-      onDelete: ()=>{
-        setUnits((prev)=>{
-         const newPrev = [...prev];
-         newPrev[unitIndex].refundables_pricing.uom_value = 0.00
-         return(newPrev)
-        })
-     }
-    },
-    {
-      name:'Inventory Pricing',
-      amount:unitDetails?.inventory_pricing?.item_unit_price * unitDetails?.inventory_pricing?.quantity || 0.00,
-      discount:unitDetails?.inventory_pricing?.discount,
-      onDelete: ()=>{
-        setUnits((prev)=>{
-         const newPrev = [...prev];
-         newPrev[unitIndex].inventory_pricing.item_unit_price = 0.00
-         return(newPrev)
-        })
-     }
-    },
-    {
-      name:'Parking Pricing',
-      amount:unitDetails?.parking_pricing?.uom_value || 0.00,
-      discount:unitDetails?.parking_pricing?.discount,
-      onDelete: ()=>{
-        setUnits((prev)=>{
-         const newPrev = [...prev];
-         newPrev[unitIndex].parking_pricing.uom_value = 0.00
-         return(newPrev)
-        })
-     }
-    },])
-  },[unitDetails,units])
+      label: "AED",
+      value: 1,
+      toPercent: (value,total)=>{
+        return((value/total)*100);
+     },
+      reduce: (percentage, total) => {
+        console.log(percentage, total);
 
-  const [finalTotal,setFinalTotal] =  useState(0.00);
+        return (percentage / 100) * total;
+      },
+    },
+  ];
 
-  useEffect(()=>{
-    let total = 0.00;
+  const [selectedDiscountTypeList, setSelectedDiscountTypeList] = useState([]);
+  const [discountValueList, setDiscountValueList] = useState([]);
+  const { units, setUnits } = useContext(CreateQuotationContext);
+
+  const [unitsCopy, setUnitsCopy] = useState([]);
+  function toFixedMax(value, maxDecimals) {
+    const decimalPart = value.toString().split('.')[1];
+    if (decimalPart && decimalPart.length > maxDecimals) {
+      return Number(value.toFixed(maxDecimals));
+    }
+    return value;
+  }
+  useEffect(() => {
+    setUnitsCopy([...units]);
+  }, [units]);
+
+  const [unitDetails, setUnitDetails] = useState([]);
+  useEffect(() => {
+    console.log(unitsCopy[unitIndex]);
+    setUnitDetails({...unitsCopy[unitIndex]});
+  }, [unitsCopy, unitIndex]);
+
+  const [unitPriceBills, setUnitPricesBills] = useState([]);
+
+  useEffect(() => {
+    if (selectedDiscountTypeList?.length === 0) {
+      setSelectedDiscountTypeList(Array(unitPriceBills.length).fill(discountTypeOptions[1]));
+    }
+
+      const tempDiscountValues = [];
+
+      unitPriceBills.forEach((data) => {
+        tempDiscountValues.push(data.discount);
+      });
+      setDiscountValueList(tempDiscountValues);
+  }, [unitPriceBills]);
+
+  useEffect(() => {
+    console.log("Price Bills")
+    setUnitPricesBills([
+      {
+        name: "Primary Pricing",
+        amount: unitDetails?.primary_pricing?.uom_value || 0.0,
+        discount: unitDetails?.primary_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].primary_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].primary_pricing.uom_value = 0.0;
+            return newPrev;
+          });
+        },
+      },
+      {
+        name: "Secondary Pricing",
+        amount: unitDetails?.secondary_pricing?.uom_value || 0.0,
+        discount: unitDetails?.secondary_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].secondary_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].secondary_pricing.uom_value = 0.0;
+            return newPrev;
+          });
+        },
+      },
+      {
+        name: "One Time Cost Pricing",
+        amount: unitDetails?.otcp_pricing?.uom_value || 0.0,
+        discount: unitDetails?.otcp_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].otcp_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].otcp_pricing.uom_value = 0.0;
+            return newPrev;
+          });
+        },
+      },
+      {
+        name: "Refundable Pricing",
+        amount: unitDetails?.refundables_pricing?.uom_value || 0.0,
+        discount: unitDetails?.refundables_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].refundables_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].refundables_pricing.uom_value = 0.0;
+            return newPrev;
+          });
+        },
+      },
+      {
+        name: "Inventory Pricing",
+        amount:
+          unitDetails?.inventory_pricing?.item_unit_price *
+            unitDetails?.inventory_pricing?.quantity || 0.0,
+        discount: unitDetails?.inventory_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].inventory_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].inventory_pricing.item_unit_price = 0.0;
+            return newPrev;
+          });
+        },
+      },
+      {
+        name: "Parking Pricing",
+        amount: unitDetails?.parking_pricing?.uom_value || 0.0,
+        discount: unitDetails?.parking_pricing?.discount,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].parking_pricing.discount = value;
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].parking_pricing.uom_value = 0.0;
+            return newPrev;
+          });
+        },
+      },
+    ]);
+  }, [unitDetails]);
+
+  const [finalTotal, setFinalTotal] = useState(0.0);
+
+  useEffect(() => {
+    let total = 0.0;
     unitPriceBills.forEach((data) => {
-      const discountedAmount = data.amount * (1 - data.discount / 100); 
-      total += discountedAmount; 
+      const discountedAmount = data.amount * (1 - data.discount / 100);
+      total += discountedAmount;
     });
     setFinalTotal(total);
-    
-  },[unitPriceBills])
+  }, [unitPriceBills]);
 
   return (
     <Dialog maxWidth open={isOpen} onClose={onClose}>
@@ -235,68 +334,127 @@ const UnitDetailsModal = ({
                   Unit Price Details
                 </div>
                 <div className="pricingDetailsRowContainer">
-                  {
-                    unitPriceBills.map((data)=>{
-                      return(
-                       (data.amount>0 )&& <>
-                         <div className="pricingDetailsRow">
-                    <div>{data.name}</div>
-                    {isDeleting ? (
-                      
-                      <div className="deleteComponentContainer">
-                         <div>${data.amount.toFixed(2)}</div>
-                        <div onClick={data.onDelete} className="deleteButton">
-                          <DeleteOutlineOutlinedIcon />
-                        </div>
-                      </div>
-                    ) : (
-                      <div>${data.amount.toFixed(2)}</div>
-                    )}
-                  </div>
-                  {!isDeleting && (
-                    (editDiscount || data.discount>0) &&<div className="pricingDetailsSubRow">
-                       <div>Discount</div>
-                      {editDiscount ? (
-                        <div className="discountEditAndSelect">
-                          <TextField
-                            sx={{
-                              "& .MuiOutlinedInput-root": { height: 30 },
-                            }}
-                            value={1000}
-                          >
-                            {" "}
-                          </TextField>
-                          <StyledSelect
-                            sx={{
-                              "& .MuiOutlinedInput-input": {
-                                height: "1.8em",
-                                minHeight: "0em",
-                                padding: "0px",
-                              },
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div>{data.discount}%</div>
-                      )}
-                    </div>
-                  )}
-                <Divider />
-
+                  {unitPriceBills.map((data, i) => {
+                    return (
+                      data.amount > 0 && (
+                        <>
+                          <div className="pricingDetailsRow">
+                            <div>{data.name}</div>
+                            {isDeleting ? (
+                              <div className="deleteComponentContainer">
+                                <div>${data.amount.toFixed(2)}</div>
+                                <div
+                                  onClick={data.onDelete}
+                                  className="deleteButton"
+                                >
+                                  <DeleteOutlineOutlinedIcon />
+                                </div>
+                              </div>
+                            ) : (
+                              <div>${data.amount.toFixed(2)}</div>
+                            )}
+                          </div>
+                          {!isDeleting &&
+                            (editDiscount || data.discount > 0) && (
+                              <div className="pricingDetailsSubRow">
+                                <div>Discount</div>
+                                {editDiscount ? (
+                                  <div className="discountEditAndSelect">
+                                    <TextField
+                                      type="Number"
+                                      fullWidth
+                                      sx={{
+                                        "& .MuiOutlinedInput-root": {
+                                          height: 30,
+                                        },
+                                      }}
+                                      value={
+                                       toFixedMax( selectedDiscountTypeList[i] !== null
+                                          ? discountTypeOptions
+                                              .find(
+                                                (data) =>
+                                                  data.value ===
+                                                  selectedDiscountTypeList[i]
+                                                    .value
+                                              )
+                                              .reduce(
+                                                Number(discountValueList[i]),
+                                                data.amount
+                                              )
+                                          : discountValueList[i],2)
+                                      }
+                                      onChange={(e) => {
+                                        const max = selectedDiscountTypeList[i]?.label==="%"?100:data.amount;
+                                       
+                                        console.log(e.target.value);
+                                        const value = Number(e.target.value)
+                                        if(value>max || value<0){
+                                             return
+                                        }
+                                        data.onDiscountChange(
+                                          selectedDiscountTypeList[i] !== null
+                                          ? discountTypeOptions
+                                              .find(
+                                                (data) =>
+                                                  data.value ===
+                                                  selectedDiscountTypeList[i]
+                                                    .value
+                                              )
+                                              .toPercent(
+                                                value,
+                                                data.amount
+                                              )
+                                          : value
+                                        );
+                                      }}
+                                    >
+                                      {" "}
+                                    </TextField>
+                                    <StyledSelect
+                                      selectedValue={
+                                        selectedDiscountTypeList[i]
+                                      }
+                                      setSelectedValue={(value) => {
+                                        setSelectedDiscountTypeList((prev) => {
+                                          console.log(value);
+                                          const newPrev = [...prev];
+                                          newPrev[i] = discountTypeOptions.find(
+                                            (data) => data.value === value.value
+                                          );
+                                          return newPrev;
+                                        });
+                                      }}
+                                      options={discountTypeOptions}
+                                      sx={{
+                                        "& .MuiOutlinedInput-input": {
+                                          height: "1.8em",
+                                          minHeight: "0em",
+                                          padding: "0px",
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div>{data.discount}%</div>
+                                )}
+                              </div>
+                            )}
+                          <Divider />
                         </>
                       )
-                    })
-                  }
-                 
+                    );
+                  })}
                 </div>
-                
               </div>
               <div className="totalContainer">
                 <div>
                   <div>Final Total</div>
                   <div>${finalTotal.toFixed(2)}</div>
                 </div>
-                {editDiscount && <StyledButton content={"Apply Discount"} />}
+                {editDiscount && <StyledButton onClickFunc={()=>{
+                  setUnits(unitsCopy);
+                  onClose();
+                }} content={"Apply Discount"} />}
               </div>
             </div>
           </div>

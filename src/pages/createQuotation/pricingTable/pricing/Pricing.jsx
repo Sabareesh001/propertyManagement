@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import StyledButton from "../../../../atoms/styledButton/StyledButton";
 import PricingLabel from "../pricingLabel/PricingLabel";
 import "./Pricing.css";
@@ -6,10 +6,10 @@ import ToggleButtonList from "../../../../atoms/toggleButton/ToggleButtonList";
 import { InputLabel, LinearProgress } from "@mui/material";
 import StyledSelect from "../../../../atoms/styledSelect/StyledSelect";
 import StyledInput from "../../../../atoms/styledInput/StyledInput";
+import { CreateQuotationContext } from "../../../../contexts/createQuotationContext/CreateQuotationContext";
 
 const Pricing = ({
-  optionInfo,
-  unitData,
+  optionInfo,  
   onClose,
   showMinMax = false,
   pricingUnit = "",
@@ -18,6 +18,9 @@ const Pricing = ({
   showPricingBasedOn=false,
   showComponentBasedOn = true,
   showUnitAndQty = false,
+  unitData,
+  unitsCopy,
+  reload
 }) => {
   const [revenueTypes, setRevenueTypes] = useState([
     {
@@ -34,7 +37,14 @@ const Pricing = ({
     },
   
   ]);
-
+   const {units,setUnits} = useContext(CreateQuotationContext)
+   const [uomValue,setUomValue] = useState(unitData?.uom_value);
+   const [selectedPricingComponent,setSelectedPricingComponent] = useState(null);
+   const [selectedTaxGroup,setSelectedTaxGroup] = useState(null);
+   const [selectedRevenueType,setSelectedRevenueType] = useState(unitData?.revenue_type)
+   const [selectedChangable,setSelectedChangable]  =useState(unitData?.changable);
+   const [selectedPricingBasedOn,setSelectedPricingBasedOn] = useState(unitData?.pricing_based_on);
+   const [selectedComponentBasedOn,setSelectedComponentBasedOn] = useState(unitData?.component_based_on);
   const [pricingComponentOptions,setPricingComponentOptions] = useState([
     {
       label:'Pricing Component',
@@ -48,6 +58,19 @@ const Pricing = ({
       value:1
     }
   ])
+
+useEffect(()=>{
+console.log(selectedPricingComponent)
+},[selectedPricingComponent])
+
+
+  useEffect(()=>{
+    setSelectedPricingComponent(pricingComponentOptions.find((data)=>(data.value === unitData?.pricing_component)))
+  },[pricingComponentOptions,unitData])
+
+  useEffect(()=>{
+    setSelectedTaxGroup(taxGroupOptions.find((data)=>(data.value === unitData?.tax_group_for_pricing)))
+  },[taxGroupOptions,unitData])
 
   const [changeableOptions, setChangableOptions] = useState([
     {
@@ -107,7 +130,10 @@ const Pricing = ({
           >
             Revenue Type
           </InputLabel>
-          <ToggleButtonList value={unitData?.revenue_type}  buttonList={revenueTypes} />
+          <ToggleButtonList selectedValue={selectedRevenueType} setSelectedValue={(val)=>{
+            setSelectedRevenueType(val);
+            unitData.revenue_type = val;
+          }}  buttonList={revenueTypes} />
         </div>
         <div className="labelAndComp">
           <InputLabel
@@ -118,7 +144,12 @@ const Pricing = ({
           >
             Pricing Component
           </InputLabel>
-          <StyledSelect value={unitData?.pricing_component} options={pricingComponentOptions} size={"small"} fullWidth={false}/>
+          <StyledSelect selectedValue={selectedPricingComponent} setSelectedValue={
+            (val)=>{setSelectedPricingComponent(val);
+              unitData.pricing_component = val?.value
+            }
+            
+        } options={pricingComponentOptions} size={"small"} fullWidth={false}/>
         </div>
         <div className="labelAndComp">
           <InputLabel
@@ -129,7 +160,7 @@ const Pricing = ({
           >
             Tax Group for Pricing Component
           </InputLabel>
-          <StyledSelect options={taxGroupOptions} value={unitData?.tax_group_for_pricing} size={"small"} fullWidth={false} />
+          <StyledSelect options={taxGroupOptions} selectedValue={selectedTaxGroup} setSelectedValue={(val)=>{setSelectedTaxGroup(val); unitData.tax_group_for_pricing= val?.value}} size={"small"} fullWidth={false} />
         </div>
        {showChangable && <div className="labelAndComp">
           <InputLabel
@@ -140,7 +171,7 @@ const Pricing = ({
           >
             Changable
           </InputLabel>
-          <ToggleButtonList value={unitData?.changable} buttonList={changeableOptions} />
+          <ToggleButtonList selectedValue={selectedChangable} setSelectedValue={(val)=>{setSelectedChangable(val); unitData.changable= val}} buttonList={changeableOptions} />
         </div>}
       {showPricingBasedOn && <div className="labelAndComp">
           <InputLabel
@@ -151,7 +182,7 @@ const Pricing = ({
           >
              Pricing Based On
           </InputLabel>
-          <ToggleButtonList value={unitData?.pricing_based_on} buttonList={PricingBasedOnOptions} />
+          <ToggleButtonList selectedValue={selectedPricingBasedOn} setSelectedValue={(val)=>{setSelectedChangable(val); unitData.pricing_based_on = val}} buttonList={PricingBasedOnOptions} />
         </div>}
        {showComponentBasedOn && <div className="labelAndComp">
           <InputLabel
@@ -174,7 +205,11 @@ const Pricing = ({
             >
               UOM Value
             </InputLabel>
-            <StyledInput inputType={"Number"} value={unitData?.uom_value} fullWidth={true} endUnit={pricingUnit} />
+            <StyledInput inputValue={unitData?.uom_value} inputType={"Number"} setInputValue={
+              (e)=>{unitData.uom_value=Number(e.target.value)
+  setUomValue(e.target.value);
+
+            }} fullWidth={true} endUnit={pricingUnit} />
           </div>
         )}
        {  showUnitAndQty && <div className="unitAndQtyContainer">
@@ -303,7 +338,11 @@ const Pricing = ({
       </div>
       <div className="backAndCreatePricingComponent">
         <StyledButton onClickFunc={onClose} type="outlined" content={"Back"} />
-        <StyledButton content={"Create Pricing Component"} />
+        <StyledButton onClickFunc={
+          ()=>{
+            setUnits([...unitsCopy]);
+         onClose();
+        }} content={"Create Pricing Component"} />
       </div>
     </div>
   );

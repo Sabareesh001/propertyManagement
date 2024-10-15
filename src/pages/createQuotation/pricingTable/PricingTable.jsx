@@ -2,12 +2,17 @@ import { Box, Dialog, Divider } from "@mui/material";
 import "./PricingTable.css";
 import CloseIcon from "@mui/icons-material/Close";
 import PricingLabel from "./pricingLabel/PricingLabel";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Pricing from "./pricing/Pricing";
 import { CreateQuotationContext } from "../../../contexts/createQuotationContext/CreateQuotationContext";
 const PricingTable = ({ isOpen, onClose }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const {currentUnit,setCurrentUnit} = useContext(CreateQuotationContext)
+  const {currentUnit,setCurrentUnit,units} = useContext(CreateQuotationContext)
+  const [unitsCopy,setUnitsCopy] = useState([]);
+useEffect(()=>{
+   setUnitsCopy(units);
+},[units])
+
   const PricingOptions = [
     {
       name: "Primary",
@@ -16,7 +21,11 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.primary_pricing}
+          unitData  = {unitsCopy[currentUnit]?.primary_pricing}
+          unitIndex={currentUnit}
+      
+
+            unitsCopy = {unitsCopy}
             pricingUnit="SAR / Total"
             showMinMax={true}
             onClose={() => {
@@ -36,7 +45,11 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.secondary_pricing}
+
+          unitData  = {unitsCopy[currentUnit]?.secondary_pricing}
+          unitIndex={currentUnit}
+          unitsCopy = {unitsCopy}
+         
           pricingUnit="$ / Monthly"
             onClose={() => {
               setSelectedOption(null);
@@ -54,7 +67,12 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.otcp_pricing}
+
+          unitData  = {unitsCopy[currentUnit]?.otcp_pricing}
+          unitsCopy = {unitsCopy}
+
+          unitIndex={currentUnit}
+          
 
           pricingUnit="$ / Monthly"
             onClose={() => {
@@ -73,7 +91,13 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.refundables_pricing}
+
+
+          unitData  = {unitsCopy[currentUnit]?.refundable_pricing}
+          unitsCopy = {unitsCopy}
+
+          unitIndex={currentUnit}
+
 
           pricingUnit="$ / Monthly"
             onClose={() => {
@@ -93,7 +117,12 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.inventory_pricing}
+
+
+          unitIndex={currentUnit}
+          unitData  = {unitsCopy[currentUnit]?.inventory_pricing}
+          unitsCopy = {unitsCopy}
+
           showChangable={false}
           showPricingBasedOn={true}
           showComponentBasedOn={false}
@@ -115,7 +144,12 @@ const PricingTable = ({ isOpen, onClose }) => {
       action: (data) => {
         setSelectedOption(
           <Pricing
-          unitData={currentUnit?.parking_pricing}
+
+          unitData  = {unitsCopy[currentUnit]?.parking_pricing}
+          unitsCopy = {unitsCopy}
+
+          unitIndex={currentUnit}
+
 
           pricingUnit="$ / Monthly"
             onClose={() => {

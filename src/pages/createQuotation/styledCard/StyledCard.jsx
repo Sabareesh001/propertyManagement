@@ -59,8 +59,10 @@ const StyledCard = ({
   }, [unitDetails,units]);
 
   const handleClose = (action) => {
-    action();
-    setCurrentUnit(unitDetails);
+    if(typeof(action) === 'function'){
+      action();
+      setCurrentUnit(unitIndex);
+    }
     setIsMenuOpen(false);
   };
 

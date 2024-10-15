@@ -69,8 +69,8 @@ font-size: large;
 }
 
 .estateInfoContainer{
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
+    display: flex;
+    flex-wrap: wrap;
     flex: 1;
 }
 
@@ -79,6 +79,7 @@ font-size: large;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    flex: 1;
 }
 
 .unitDetailsContainer{

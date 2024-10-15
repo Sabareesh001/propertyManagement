@@ -2,8 +2,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import './ToggleButtonList.css';
 import { useEffect, useState } from 'react';
 
-const ToggleButtonList = ({buttonList,value=null})=>{
-    const [selectedValue,setSelectedValue] = useState(value)
+const ToggleButtonList = ({selectedValue,setSelectedValue,buttonList,value=null})=>{
 
 
     return(

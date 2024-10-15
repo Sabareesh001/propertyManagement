@@ -10,29 +10,23 @@ const StyledSelect = ({
   borderRadius = "5px",
   border = "#E4E8EE",
   fullWidth = true,
-  value=null,
+  selectedValue,
+  setSelectedValue,
   sx
 }) => {
-  const [selectedValue, setSelectedValue] = useState({
-    value: "",
-    label: "Select",
-  });
 
+
+  console.log(selectedValue?.value)
   const handleChange = (event) => {
     const selectedValue = event.target.value;
     const selectedOption = options.find(
-      (option) => option.value === selectedValue
+      (option) => option?.value === selectedValue
     );
     if (selectedOption) {
-      setSelectedValue({ value: selectedValue, label: selectedOption.label });
+      setSelectedValue(selectedOption);
     }
   };
 
- useEffect(()=>{
-    if(value !== null){
-      setSelectedValue(options.find((data)=>(data.value===value)))
-    }
- },[options,value])
 
   return (
     <FormControl fullWidth={fullWidth} size="small">
@@ -40,7 +34,7 @@ const StyledSelect = ({
         displayEmpty
         fullWidth={fullWidth}
         size={size}
-        value={selectedValue.value}
+        value={selectedValue?selectedValue?.value:null}
         onChange={handleChange}
         sx={{
           ...sx,
@@ -57,7 +51,7 @@ const StyledSelect = ({
         }}
         renderValue={(value) =>
           value ? (
-            selectedValue.label
+            selectedValue?.label
           ) : (
             <Typography color="gray">Select</Typography>
           )
