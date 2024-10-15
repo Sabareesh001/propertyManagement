@@ -3,70 +3,17 @@ import './AddUtilities.css';
 import CloseIcon from "@mui/icons-material/Close";
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SubUnitSelect from '../subUnitSelect/SubUnitSelect';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import StyledButton from '../../../atoms/styledButton/StyledButton';
+import { CreateQuotationContext } from '../../../contexts/createQuotationContext/CreateQuotationContext';
 const AddUtilities = ({isOpen,onClose})=>{
 
+  const {units,setUnits,utilities,setUtilities} = useContext(CreateQuotationContext);
+  const [unitsCopy,setUnitsCopy] = useState([]);
+  useEffect(()=>{
+     setUnitsCopy(units)
+  },[units])
 
-    const [utilities,setUtilities] =  useState([
-      {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      },
-      {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      },
-      {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      }, {
-        name:'Utilities Name',
-        image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-        price:'20.00',
-        start_date:'22 Feb',
-       end_date:'12 Feb  23'
-      },
-    ])
 
     return(
         <Dialog open={isOpen} onClose={onClose}>
@@ -95,13 +42,17 @@ const AddUtilities = ({isOpen,onClose})=>{
             <div className='amenitiesList'>
                 {utilities.map((data)=>{
                    return(
-                  <SubUnitSelect subbUnitDetails={data} />
+
+                  <SubUnitSelect
+                  unitsCopy={unitsCopy}
+                  type={'utilities'}
+                  subbUnitDetails={data} />
 
                    )
                 })
                 }
             </div>
-            <StyledButton content={"Update & Save"}/>
+            <StyledButton onClickFunc={()=>{setUnits([...unitsCopy]); onClose()}} content={"Update & Save"}/>
            </Box>
         </Dialog>
     )

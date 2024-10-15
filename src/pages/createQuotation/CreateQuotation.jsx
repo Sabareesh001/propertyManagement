@@ -245,7 +245,7 @@ const CreateQuotation = () => {
                     <div>Total Amount</div>
                     <div>{units?.length}</div>
                     <div className="money">
-                      $ {quotationSummary?.total_amount?.toFixed(2)}
+                      $ {typeof(quotationSummary?.total_amount)==="number" ? quotationSummary?.total_amount?.toFixed(2):0.00}
                     </div>
                   </div>
                   <Divider />{" "}

@@ -63,9 +63,9 @@ const UnitDetailsModal = ({
 
   const [unitsCopy, setUnitsCopy] = useState([]);
   function toFixedMax(value, maxDecimals) {
-    const decimalPart = value.toString().split('.')[1];
-    if (decimalPart && decimalPart.length > maxDecimals) {
-      return Number(value.toFixed(maxDecimals));
+    const decimalPart = value?.toString().split('.')[1];
+    if (decimalPart && decimalPart?.length > maxDecimals) {
+      return Number(value?.toFixed(maxDecimals));
     }
     return value;
   }
@@ -82,9 +82,8 @@ const UnitDetailsModal = ({
   const [unitPriceBills, setUnitPricesBills] = useState([]);
 
   useEffect(() => {
-    if (selectedDiscountTypeList?.length === 0) {
+
       setSelectedDiscountTypeList(Array(unitPriceBills.length).fill(discountTypeOptions[1]));
-    }
 
       const tempDiscountValues = [];
 
@@ -115,7 +114,8 @@ const UnitDetailsModal = ({
             return newPrev;
           });
         },
-      },
+      }
+      ,
       {
         name: "Secondary Pricing",
         amount: unitDetails?.secondary_pricing?.uom_value || 0.0,
@@ -213,8 +213,51 @@ const UnitDetailsModal = ({
           });
         },
       },
+    
+      ...(unitDetails?.amenities?.map((amenity, index) => ({
+        name:amenity.name,  // Assuming each amenity has a name
+        amount: amenity.amount || 0.0,  // Assuming each amenity has a uom_value
+        discount: amenity.discount || 0.0, // Assuming each amenity has a discount
+        isFree:amenity.isFree,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].amenities[index].discount = value;  // Updating amenity discount
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].amenities.splice(index,1);
+            return newPrev;
+          });
+        },
+      })) || []),
+      ...(unitDetails?.utilities?.map((utility, index) => ({
+        name:utility.name,  // Assuming each amenity has a name
+        amount: utility.amount || 0.0,  // Assuming each amenity has a uom_value
+        discount: utility.discount || 0.0, // Assuming each amenity has a discount
+        isFree:utility.isFree,
+        onDiscountChange: (value) => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].utilities[index].discount = value;  // Updating amenity discount
+            return newPrev;
+          });
+        },
+        onDelete: () => {
+          setUnitsCopy((prev) => {
+            const newPrev = [...prev];
+            newPrev[unitIndex].utilities.splice(index,1);
+            return newPrev;
+          });
+        },
+      })) || [])
     ]);
-  }, [unitDetails]);
+
+  },[unitDetails]);
+    
 
   const [finalTotal, setFinalTotal] = useState(0.0);
 
@@ -336,13 +379,13 @@ const UnitDetailsModal = ({
                 <div className="pricingDetailsRowContainer">
                   {unitPriceBills.map((data, i) => {
                     return (
-                      data.amount > 0 && (
+                      ( data.amount>0 || data?.isFree) && (
                         <>
                           <div className="pricingDetailsRow">
                             <div>{data.name}</div>
                             {isDeleting ? (
                               <div className="deleteComponentContainer">
-                                <div>${data.amount.toFixed(2)}</div>
+                                <div>{(data?.isFree)?'Free':'$'+Number(data?.amount)?.toFixed(2)}</div>
                                 <div
                                   onClick={data.onDelete}
                                   className="deleteButton"
@@ -351,7 +394,7 @@ const UnitDetailsModal = ({
                                 </div>
                               </div>
                             ) : (
-                              <div>${data.amount.toFixed(2)}</div>
+                              <div>{(data?.isFree)?'Free':'$'+Number(data?.amount)?.toFixed(2)}</div>
                             )}
                           </div>
                           {!isDeleting &&
@@ -369,22 +412,22 @@ const UnitDetailsModal = ({
                                         },
                                       }}
                                       value={
-                                       toFixedMax( selectedDiscountTypeList[i] !== null
+                                       toFixedMax( selectedDiscountTypeList?.[i] !== null
                                           ? discountTypeOptions
-                                              .find(
+                                              ?.find(
                                                 (data) =>
                                                   data.value ===
-                                                  selectedDiscountTypeList[i]
-                                                    .value
+                                                  selectedDiscountTypeList?.[i]
+                                                    ?.value
                                               )
-                                              .reduce(
+                                              ?.reduce(
                                                 Number(discountValueList[i]),
                                                 data.amount
                                               )
                                           : discountValueList[i],2)
                                       }
                                       onChange={(e) => {
-                                        const max = selectedDiscountTypeList[i]?.label==="%"?100:data.amount;
+                                        const max = selectedDiscountTypeList?.[i]?.label==="%"?100:data.amount;
                                        
                                         console.log(e.target.value);
                                         const value = Number(e.target.value)
@@ -392,12 +435,12 @@ const UnitDetailsModal = ({
                                              return
                                         }
                                         data.onDiscountChange(
-                                          selectedDiscountTypeList[i] !== null
+                                          selectedDiscountTypeList?.[i] !== null
                                           ? discountTypeOptions
                                               .find(
                                                 (data) =>
                                                   data.value ===
-                                                  selectedDiscountTypeList[i]
+                                                  selectedDiscountTypeList?.[i]
                                                     .value
                                               )
                                               .toPercent(
@@ -412,7 +455,7 @@ const UnitDetailsModal = ({
                                     </TextField>
                                     <StyledSelect
                                       selectedValue={
-                                        selectedDiscountTypeList[i]
+                                        selectedDiscountTypeList?.[i]
                                       }
                                       setSelectedValue={(value) => {
                                         setSelectedDiscountTypeList((prev) => {
@@ -452,7 +495,7 @@ const UnitDetailsModal = ({
                   <div>${finalTotal.toFixed(2)}</div>
                 </div>
                 {editDiscount && <StyledButton onClickFunc={()=>{
-                  setUnits(unitsCopy);
+                  setUnits([...unitsCopy]);
                   onClose();
                 }} content={"Apply Discount"} />}
               </div>

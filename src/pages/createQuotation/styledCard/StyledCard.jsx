@@ -32,7 +32,7 @@ const StyledCard = ({
   const [totalDiscount, setTotalDiscount] = useState(0.0);
   const {units,setUnits} = useContext(CreateQuotationContext)
   useEffect(() => {
-    setTotal(
+    let total = 
       unitDetails?.primary_pricing?.uom_value +
         unitDetails?.secondary_pricing?.uom_value +
         unitDetails?.otcp_pricing?.uom_value +
@@ -40,7 +40,10 @@ const StyledCard = ({
         unitDetails?.inventory_pricing?.item_unit_price *
           unitDetails?.inventory_pricing?.quantity +
         unitDetails?.parking_pricing?.uom_value || 0.0
-    );
+    unitDetails?.amenities?.forEach((data)=>{
+        total+=data?.amount || 0.00;
+    })
+    setTotal(total);
     setTotalDiscount(
       (unitDetails?.primary_pricing?.uom_value || 0.0) *
         ((unitDetails?.primary_pricing?.discount || 0) / 100) +

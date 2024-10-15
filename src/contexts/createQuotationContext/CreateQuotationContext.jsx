@@ -29,6 +29,84 @@ const CreateOuotationContextProvider = ({ component }) => {
     total_tax: 0.0,
   });
 
+  const [amenities,setAmenities] =  useState([
+    {
+      id:1,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      isFree:true,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+    {
+      id:2,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      isFree:false,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:3,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:4,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+    {
+      id:5,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:6,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:7,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:8,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:9,
+      name:'Amenities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      isFree:false,
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+  ])
+
   const [unitImageList, setUnitImageList] = useState([
     {
       image: House2,
@@ -119,8 +197,9 @@ const CreateOuotationContextProvider = ({ component }) => {
         component_based_on: 1,
         uom_value: 200,
         discount:0.00
-
       },
+      amenities:[],
+      utilities:[]
     },
     {
       image: House,
@@ -150,6 +229,84 @@ const CreateOuotationContextProvider = ({ component }) => {
     },
   ]);
 
+  const [utilities,setUtilities] =  useState([
+    {
+      id:1,
+      isFree:true,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+    {
+      id:2,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:3,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:4,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+    {
+      id:5,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:6,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:7,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:8,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    }, {
+      id:9,
+      isFree:false,
+      name:'Utilities Name',
+      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
+      price:20.00,
+      start_date:'22 Feb',
+     end_date:'12 Feb  23'
+    },
+  ])
+
   useEffect(()=>{
       console.log(quotationSummary)
   },[quotationSummary])
@@ -166,9 +323,17 @@ const CreateOuotationContextProvider = ({ component }) => {
         (unitDetails?.otcp_pricing?.uom_value || 0.0) +
         ((unitDetails?.inventory_pricing?.item_unit_price || 0.0) * (unitDetails?.inventory_pricing?.quantity || 0)) +
         (unitDetails?.parking_pricing?.uom_value || 0.0);
-       total_refundables+=(unitDetails?.refundables_pricing?.uom_value || 0.0);
-      // Calculate total_discount based on discount object (assuming discount percentages)
-      total_discount += 
+    
+       unitDetails?.amenities?.forEach((data)=>{
+        total+=data?.amount || 0.00;
+       })
+       unitDetails?.utilities?.forEach((data)=>{
+        total+=data?.amount || 0.00;
+       })
+        total_refundables+=(unitDetails?.refundables_pricing?.uom_value || 0.0);
+
+
+       total_discount += 
       (unitDetails?.primary_pricing?.uom_value || 0.0) * ((unitDetails?.primary_pricing?.discount || 0) / 100) +
       (unitDetails?.secondary_pricing?.uom_value || 0.0) * ((unitDetails?.secondary_pricing?.discount || 0) / 100) +
       (unitDetails?.otcp_pricing?.uom_value || 0.0) * ((unitDetails?.otcp_pricing?.discount || 0) / 100) +
@@ -201,7 +366,11 @@ const CreateOuotationContextProvider = ({ component }) => {
         unitImageList,
         currentUnit,
         setCurrentUnit,
-        quotationSummary
+        quotationSummary,
+        amenities,
+        setAmenities,
+        utilities,
+        setUtilities
       }}
     >
       {component}

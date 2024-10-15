@@ -3,9 +3,10 @@ import ProfileIcon from "../../../atoms/profileIcon/ProfileIcon";
 import "./SubUnitSelect.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import { CreateQuotationContext } from "../../../contexts/createQuotationContext/CreateQuotationContext";
 const IOSSwitch = styled((props) => (
   <Switch
     size="small"
@@ -72,8 +73,20 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const SubUnitSelect = ({subbUnitDetails}) => {
+const SubUnitSelect = ({subbUnitDetails,type,unitsCopy,setUnitsCopy}) => {
   const [selected, setSelected] = useState(false);
+  const [checked,setChecked] = useState(false);
+  useEffect(()=>{
+    const target =  unitsCopy[currentUnit]?.[type].find((data)=>(data.id===subbUnitDetails?.id)) || null
+    if(target){
+      setSelected(true);
+      console.log(target?.amount === 0.00)
+      if(target?.isFree){
+        setChecked(true);
+      }
+    }
+  },[subbUnitDetails])
+  const {currentUnit} = useContext(CreateQuotationContext);
 
   return (
     <div className="SubUnitSelectContainer">
@@ -92,18 +105,51 @@ const SubUnitSelect = ({subbUnitDetails}) => {
           </div>
         </div>
         <IOSSwitch
-          onChange={() => {
-            setSelected((prev) => !prev);
+          onChange={(e,value) => {
+            if(value){
+              unitsCopy[currentUnit]?.[type].push(
+                { id:subbUnitDetails?.id,
+                  name:subbUnitDetails?.name,
+                  amount:subbUnitDetails.price,
+                  discount:0.00,
+                  isFree:false
+               }
+               )
+            }
+            else{
+               const removeIndex =  unitsCopy[currentUnit]?.[type].findIndex((data)=>(data.id===subbUnitDetails?.id)) 
+               if(removeIndex>=0){
+                unitsCopy[currentUnit]?.[type].splice(removeIndex,1);
+               }
+            }
+          
+            setSelected(value);
+
           }}
           checked={selected}
         />
       </div>
-      {selected && (
+      {subbUnitDetails?.isFree && selected && (
         <>
           <Divider />
           <div className="checkAndPrice">
             <Checkbox 
-    
+    checked={checked}
+    onChange={(e,val)=>{
+      console.log(val)
+      setChecked(val);
+     
+        const targetIndex =  unitsCopy[currentUnit]?.[type].findIndex((data)=>(data.id===subbUnitDetails?.id))
+        if(val){
+        unitsCopy[currentUnit][type][targetIndex].amount = 0.00
+        unitsCopy[currentUnit][type][targetIndex].isFree = true
+   
+    }
+  else{
+    unitsCopy[currentUnit][type][targetIndex].amount = subbUnitDetails?.price
+    unitsCopy[currentUnit][type][targetIndex].isFree = false
+  }
+  }}
  checkedIcon={<CheckCircleIcon sx={{color:'#5078E1'}}/>}
  icon={<RadioButtonUncheckedIcon />}
               />

@@ -93,7 +93,7 @@ useEffect(()=>{
           <Pricing
 
 
-          unitData  = {unitsCopy[currentUnit]?.refundable_pricing}
+          unitData  = {unitsCopy[currentUnit]?.refundables_pricing}
           unitsCopy = {unitsCopy}
 
           unitIndex={currentUnit}
