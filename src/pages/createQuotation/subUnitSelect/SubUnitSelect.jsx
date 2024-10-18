@@ -87,6 +87,16 @@ const SubUnitSelect = ({subbUnitDetails,type,unitsCopy,setUnitsCopy}) => {
     }
   },[subbUnitDetails])
   const {currentUnit} = useContext(CreateQuotationContext);
+  const startDate = new Date(subbUnitDetails?.start_date).toLocaleDateString('en-US', {
+    month: 'short', 
+    day: 'numeric'
+});
+const endDate = new Date(subbUnitDetails?.end_date).toLocaleDateString('en-US', {
+    month: 'short', 
+    day: 'numeric', 
+    year: '2-digit'
+});
+
 
   return (
     <div className="SubUnitSelectContainer">
@@ -100,7 +110,7 @@ const SubUnitSelect = ({subbUnitDetails,type,unitsCopy,setUnitsCopy}) => {
             <div className="priceAndDateContainer">
               $ {subbUnitDetails.price}
               <CircleIcon className="circleIcon" />
-              Valid {subbUnitDetails.start_date} - {subbUnitDetails.end_date}
+              Valid {startDate} - {endDate}
             </div>
           </div>
         </div>
@@ -129,7 +139,7 @@ const SubUnitSelect = ({subbUnitDetails,type,unitsCopy,setUnitsCopy}) => {
           checked={selected}
         />
       </div>
-      {subbUnitDetails?.isFree && selected && (
+      {subbUnitDetails?.is_free && selected && (
         <>
           <Divider />
           <div className="checkAndPrice">

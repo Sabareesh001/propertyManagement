@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import House from "../../assets/house.jpg";
 import House2 from "../../assets/house2.png";
 import ManImage from "../../assets/man.jpg";
+import axios from "axios";
+import { apiHost } from "../../config/config";
 const CreateQuotationContext = createContext(null);
 
 const CreateOuotationContextProvider = ({ component }) => {
@@ -29,83 +31,98 @@ const CreateOuotationContextProvider = ({ component }) => {
     total_tax: 0.0,
   });
 
-  const [amenities,setAmenities] =  useState([
+  const [amenities, setAmenities] = useState([
     {
-      id:1,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      isFree:true,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
+      id: 1,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      isFree: true,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
     {
-      id:2,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      isFree:false,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:3,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:4,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
+      id: 2,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      isFree: false,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
     {
-      id:5,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:6,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:7,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:8,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:9,
-      name:'Amenities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      isFree:false,
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
+      id: 3,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
-  ])
+    {
+      id: 4,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 5,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 6,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 7,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 8,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 9,
+      name: "Amenities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      isFree: false,
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+  ]);
 
   const [unitImageList, setUnitImageList] = useState([
     {
@@ -130,228 +147,203 @@ const CreateOuotationContextProvider = ({ component }) => {
       image: House2,
     },
   ]);
-  const [units, setUnits] = useState([
+
+  const fetchPropertyUnits = () => {
+    axios
+      .get(`${apiHost}/api/property-units`)
+      .then((response) => {
+        const data = response.data;
+        if (data) {
+          setUnits(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching property units:", error);
+      });
+  };
+
+  const fetchAmenities = (property_unit_id) => {
+    axios
+      .get(`${apiHost}/api/amenities-by-property-id`, {
+        params: {
+          property_unit_id: property_unit_id,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          setAmenities(res.data);
+        }
+      });
+  };
+
+  const fetchUtilities = (property_unit_id) => {
+    axios
+      .get(`${apiHost}/api/utilities-by-property-id`, {
+        params: {
+          property_unit_id: property_unit_id,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          setUtilities(res.data);
+        }
+      });
+  };
+
+  const [units, setUnits] = useState([]);
+
+  useEffect(() => {
+    console.log(units);
+  }, [units]);
+
+  useEffect(() => {
+    fetchPropertyUnits();
+  }, []);
+
+  const [utilities, setUtilities] = useState([
     {
-      image: House,
-      name: "Jumeriah Estate",
-      unitId: "UNT-1234",
-      address: "Rubix Apartment, K Tower, Floor 1",
-      company: "Jumeriah Golf Estate",
-      beds: 2,
-      baths: 2,
-      bhk: 2,
-      area: 2000,
-      isDiscountApplied: true,
-      primary_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        component_based_on: 1,
-        uom_value: 200,
-        max: 150,
-        recommended: 130,
-        min: 100,
-        discount:10.00
-      },
-      secondary_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        component_based_on: 1,
-        uom_value: 200,
-        discount:0.00
-      },
-      otcp_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        component_based_on: 1,
-        uom_value: 200,
-        discount:0.00
-
-      },
-      refundables_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        component_based_on: 1,
-        uom_value: 200,
-        discount:0.00
-
-      },
-      inventory_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        pricing_based_on: 1,
-        item_unit_price: 200,
-        quantity: 10,
-        discount:0.00
-
-      },
-      parking_pricing: {
-        revenue_type: 1,
-        pricing_component: 1,
-        tax_group_for_pricing: 1,
-        changable: 1,
-        component_based_on: 1,
-        uom_value: 200,
-        discount:0.00
-      },
-      amenities:[],
-      utilities:[]
+      id: 1,
+      isFree: true,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
     {
-      image: House,
-      name: "Jumeriah Estate",
-      unitId: "UNT-1234",
-      address: "Rubix Apartment, K Tower, Floor 1",
-      company: "Jumeriah Golf Estate",
-      beds: 2,
-      baths: 2,
-      bhk: 2,
-      area: 2000,
-      price: 1230,
-      isDiscountApplied: false,
+      id: 2,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
     {
-      image: House,
-      name: "Jumeriah Estate",
-      unitId: "UNT-1234",
-      address: "Rubix Apartment, K Tower, Floor 1",
-      company: "Jumeriah Golf Estate",
-      beds: 2,
-      baths: 2,
-      bhk: 2,
-      area: 2000,
-      price: 1200,
-      isDiscountApplied: false,
+      id: 3,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 4,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 5,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 6,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 7,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 8,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
+    },
+    {
+      id: 9,
+      isFree: false,
+      name: "Utilities Name",
+      image:
+        "https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg",
+      price: 20.0,
+      start_date: "22 Feb",
+      end_date: "12 Feb  23",
     },
   ]);
 
-  const [utilities,setUtilities] =  useState([
-    {
-      id:1,
-      isFree:true,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    },
-    {
-      id:2,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:3,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:4,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    },
-    {
-      id:5,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:6,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:7,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:8,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    }, {
-      id:9,
-      isFree:false,
-      name:'Utilities Name',
-      image:'https://5.imimg.com/data5/SELLER/Default/2024/2/383004961/CI/WW/XZ/1938594/frp-swimming-pools.jpeg',
-      price:20.00,
-      start_date:'22 Feb',
-     end_date:'12 Feb  23'
-    },
-  ])
-
-  useEffect(()=>{
-      console.log(quotationSummary)
-  },[quotationSummary])
+  useEffect(() => {
+    console.log(quotationSummary);
+  }, [quotationSummary]);
 
   useEffect(() => {
-    console.log(units)
+    console.log(units);
     let total = 0.0;
     let total_discount = 0.0;
     let total_refundables = 0.0;
     units.forEach((unitDetails) => {
-        total += 
+      total +=
         (unitDetails?.primary_pricing?.uom_value || 0.0) +
         (unitDetails?.secondary_pricing?.uom_value || 0.0) +
-        (unitDetails?.otcp_pricing?.uom_value || 0.0) +
-        ((unitDetails?.inventory_pricing?.item_unit_price || 0.0) * (unitDetails?.inventory_pricing?.quantity || 0)) +
+        (unitDetails?.one_time_cost_pricing?.uom_value || 0.0) +
+        (unitDetails?.inventory_pricing?.item_unit_price || 0.0) *
+          (unitDetails?.inventory_pricing?.quantity || 0) +
         (unitDetails?.parking_pricing?.uom_value || 0.0);
-    
-       unitDetails?.amenities?.forEach((data)=>{
-        total+=data?.amount || 0.00;
-       })
-       unitDetails?.utilities?.forEach((data)=>{
-        total+=data?.amount || 0.00;
-       })
-        total_refundables+=(unitDetails?.refundables_pricing?.uom_value || 0.0);
 
+      unitDetails?.amenities?.forEach((data) => {
+        total += data?.amount || 0.0;
+      });
+      unitDetails?.utilities?.forEach((data) => {
+        total += data?.amount || 0.0;
+      });
+      total_refundables += unitDetails?.refundables_pricing?.uom_value || 0.0;
 
-       total_discount += 
-      (unitDetails?.primary_pricing?.uom_value || 0.0) * ((unitDetails?.primary_pricing?.discount || 0) / 100) +
-      (unitDetails?.secondary_pricing?.uom_value || 0.0) * ((unitDetails?.secondary_pricing?.discount || 0) / 100) +
-      (unitDetails?.otcp_pricing?.uom_value || 0.0) * ((unitDetails?.otcp_pricing?.discount || 0) / 100) +
-      (unitDetails?.refundables_pricing?.uom_value || 0.0) * ((unitDetails?.refundables_pricing?.discount || 0) / 100) +
-      ((unitDetails?.inventory_pricing?.item_unit_price || 0.0) * (unitDetails?.inventory_pricing?.quantity || 0)) * ((unitDetails?.inventory_pricing?.discount || 0) / 100) +
-      (unitDetails?.parking_pricing?.uom_value || 0.0) * ((unitDetails?.parking_pricing?.discount || 0) / 100);
-    
+      total_discount +=
+        (unitDetails?.primary_pricing?.uom_value || 0.0) *
+          ((unitDetails?.primary_pricing?.discount || 0) / 100) +
+        (unitDetails?.secondary_pricing?.uom_value || 0.0) *
+          ((unitDetails?.secondary_pricing?.discount || 0) / 100) +
+        (unitDetails?.one_time_cost_pricing?.uom_value || 0.0) *
+          ((unitDetails?.one_time_cost_pricing?.discount || 0) / 100) +
+        (unitDetails?.refundables_pricing?.uom_value || 0.0) *
+          ((unitDetails?.refundables_pricing?.discount || 0) / 100) +
+        (unitDetails?.inventory_pricing?.item_unit_price || 0.0) *
+          (unitDetails?.inventory_pricing?.quantity || 0) *
+          ((unitDetails?.inventory_pricing?.discount || 0) / 100) +
+        (unitDetails?.parking_pricing?.uom_value || 0.0) *
+          ((unitDetails?.parking_pricing?.discount || 0) / 100);
     });
 
-
-
-    setQuotationSummary((prev)=>{
-        const newPrev = {...prev};
-        newPrev.total_amount = total;
-        newPrev.total_discount = total_discount;
-        newPrev.total_refundable = total_refundables;
-        return(newPrev);
-    })
+    setQuotationSummary((prev) => {
+      const newPrev = { ...prev };
+      newPrev.total_amount = total;
+      newPrev.total_discount = total_discount;
+      newPrev.total_refundable = total_refundables;
+      return newPrev;
+    });
   }, [units]);
 
   return (
@@ -370,7 +362,9 @@ const CreateOuotationContextProvider = ({ component }) => {
         amenities,
         setAmenities,
         utilities,
-        setUtilities
+        setUtilities,
+        fetchAmenities,
+        fetchUtilities
       }}
     >
       {component}

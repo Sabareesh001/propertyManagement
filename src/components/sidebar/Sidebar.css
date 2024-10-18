@@ -17,8 +17,8 @@
 .sidebarContainer .menusContainer{
     display: flex;
     flex-direction: column;
-    height: 100%;
     width: 100%;
+    gap: 10px;
     align-items: center;
     justify-content: space-between;
 }
@@ -81,6 +81,7 @@
     align-items: center;
     justify-content: space-between;
     gap:10px;
+    
 }
 
 .sidebarContentContainer .backButtonContainer{

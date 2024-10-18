@@ -26,7 +26,6 @@ import { CreateQuotationContext } from "../../../contexts/createQuotationContext
 const UnitDetailsModal = ({
   isOpen = false,
   onClose,
-  imageList,
   unitIndex,
   editDiscount,
   isDeleting,
@@ -73,11 +72,20 @@ const UnitDetailsModal = ({
     setUnitsCopy([...units]);
   }, [units]);
 
+
+ const [imageList,setImageList] = useState([]);
+ 
+
   const [unitDetails, setUnitDetails] = useState([]);
   useEffect(() => {
     console.log(unitsCopy[unitIndex]);
     setUnitDetails({...unitsCopy[unitIndex]});
   }, [unitsCopy, unitIndex]);
+
+  useEffect(()=>{
+    setImageList(unitDetails?.image_list);
+ },[unitDetails])
+ 
 
   const [unitPriceBills, setUnitPricesBills] = useState([]);
 
@@ -137,19 +145,19 @@ const UnitDetailsModal = ({
       },
       {
         name: "One Time Cost Pricing",
-        amount: unitDetails?.otcp_pricing?.uom_value || 0.0,
-        discount: unitDetails?.otcp_pricing?.discount,
+        amount: unitDetails?.one_time_cost_pricing?.uom_value || 0.0,
+        discount: unitDetails?.one_time_cost_pricing?.discount,
         onDiscountChange: (value) => {
           setUnitsCopy((prev) => {
             const newPrev = [...prev];
-            newPrev[unitIndex].otcp_pricing.discount = value;
+            newPrev[unitIndex].one_time_cost_pricing.discount = value;
             return newPrev;
           });
         },
         onDelete: () => {
           setUnitsCopy((prev) => {
             const newPrev = [...prev];
-            newPrev[unitIndex].otcp_pricing.uom_value = 0.0;
+            newPrev[unitIndex].one_time_cost_pricing.uom_value = 0.0;
             return newPrev;
           });
         },
@@ -299,7 +307,7 @@ const UnitDetailsModal = ({
                     >
                       <img
                         style={{ position: "relative", borderRadius: "5px" }}
-                        src={data?.image}
+                        src={data}
                       ></img>
                       {i === 4 && imageList.length - 5 > 0 && (
                         <div className="moreLabelContainer">

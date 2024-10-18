@@ -68,7 +68,7 @@ useEffect(()=>{
         setSelectedOption(
           <Pricing
 
-          unitData  = {unitsCopy[currentUnit]?.otcp_pricing}
+          unitData  = {unitsCopy[currentUnit]?.one_time_cost_pricing}
           unitsCopy = {unitsCopy}
 
           unitIndex={currentUnit}
@@ -175,7 +175,7 @@ useEffect(()=>{
         maxWidth={530}
         minWidth={530}
         maxHeight={630}
-        minHeight={530}
+        minHeight={560}
         sx={{
           padding: "10px",
           display: "flex",

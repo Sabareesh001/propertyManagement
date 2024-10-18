@@ -22,14 +22,15 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import Person2Icon from '@mui/icons-material/Person2';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
-
+ const location = useLocation();
   const [isSideBarOpen,setIsSideBarOpen] = useState(false);
 
   const menus = [
     { iconOutlined: <DashboardOutlinedIcon />, iconFilled: <DashboardIcon /> , name:'Dashboard'},
-    { iconOutlined: <GroupsOutlinedIcon />, iconFilled: <GroupsIcon />,name:'Companies' },
+    { iconOutlined: <GroupsOutlinedIcon />, iconFilled: <GroupsIcon />,name:'Companies',path:'/createquotation' },
     { iconOutlined: <BusinessOutlinedIcon />, iconFilled: <BusinessIcon />,name:'Owners' },
     { iconOutlined: <Person2OutlinedIcon />, iconFilled: <Person2Icon />,name:'Properties' },
     { iconOutlined: <LocalOfferOutlinedIcon />, iconFilled: <LocalOfferIcon />,name:'Pricing' },
@@ -78,8 +79,7 @@ const Sidebar = () => {
             <div className='menuIconContainer'> 
               <div
                 key={i}
-                className='menuIcon'
-                onMouseEnter={() => handleMouseEnter(i)}
+                className={`menuIcon${location.pathname===menu?.path?` active`:``}`}                onMouseEnter={() => handleMouseEnter(i)}
                 onMouseLeave={() => handleMouseLeave(i)}
               >
                 {menuHover[i] ? menu.iconOutlined : menu.iconFilled}

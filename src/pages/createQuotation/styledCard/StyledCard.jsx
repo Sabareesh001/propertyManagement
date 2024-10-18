@@ -35,13 +35,13 @@ const StyledCard = ({
     let total = 
       unitDetails?.primary_pricing?.uom_value +
         unitDetails?.secondary_pricing?.uom_value +
-        unitDetails?.otcp_pricing?.uom_value +
+        unitDetails?.one_time_cost_pricing?.uom_value +
         unitDetails?.refundables_pricing?.uom_value +
-        unitDetails?.inventory_pricing?.item_unit_price *
-          unitDetails?.inventory_pricing?.quantity +
+       ( unitDetails?.inventory_pricing?.item_unit_price *
+          unitDetails?.inventory_pricing?.quantity) +
         unitDetails?.parking_pricing?.uom_value || 0.0
     unitDetails?.amenities?.forEach((data)=>{
-        total+=data?.amount || 0.00;
+        total+= data?.amount || 0.00;
     })
     setTotal(total);
     setTotalDiscount(
@@ -63,7 +63,7 @@ const StyledCard = ({
 
   const handleClose = (action) => {
     if(typeof(action) === 'function'){
-      action();
+      action(unitDetails?.id);
       setCurrentUnit(unitIndex);
     }
     setIsMenuOpen(false);
@@ -101,7 +101,7 @@ const StyledCard = ({
       >
         <CardMedia
           sx={{ height: 100, borderRadius: "5px", position: "relative" }}
-          image={unitDetails?.image}
+          image={unitDetails?.main_image}
         >
           {(totalDiscount>0) && (
             <div className="discountAppliedContainer">
@@ -114,7 +114,7 @@ const StyledCard = ({
           <div className="cardContentContainer">
             <div className="UnitInfoContainer">
               <div className="nameAndPriceContainer">
-                <div>{unitDetails.name}</div>
+                <div>{unitDetails.companies.name}</div>
                 <div
                   style={{
                     color: (totalDiscount>0) ? "#FF9340" : "",
@@ -124,9 +124,9 @@ const StyledCard = ({
                 </div>
               </div>
               <div className="companyNameAndEstate">
-                <div>{unitDetails.company}</div>
+                <div>{unitDetails.name}</div>
                 <CircleIcon className="circle" />
-                <div>{unitDetails.area} Sq.Ft</div>
+                <div>{unitDetails.area_in_sqft} Sq.Ft</div>
               </div>
             </div>
             <div className="unitsCountContainer">

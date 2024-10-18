@@ -21,10 +21,11 @@ import { CreateQuotationContext } from "../../contexts/createQuotationContext/Cr
 const CreateQuotation = () => {
   const {
     units,
-    unitImageList,
     leadDetails,
     quotationDetails,
     quotationSummary,
+    fetchAmenities,
+    fetchUtilities
   } = useContext(CreateQuotationContext);
   const [organizationOptions, setOrganizationOptions] = useState([
     {
@@ -49,13 +50,15 @@ const CreateQuotation = () => {
     },
     {
       name: "Add Ammenities",
-      action: () => {
+      action: (property_unit_id) => {
+        fetchAmenities(property_unit_id);
         setIsAddAmenitiesModalOpen(true);
       },
     },
     {
       name: "Add Utitlities",
-      action: () => {
+      action: (property_unit_id) => {
+        fetchUtilities(property_unit_id);
         setIsAddUtilitiesModalOpen(true);
       },
     },
@@ -194,7 +197,6 @@ const CreateQuotation = () => {
                   <UnitDetailsModal
                   key={selectedUnit}
                     isOpen={isUnitDetailsModalOpen}
-                    imageList={unitImageList}
                     editDiscount={isEditingDiscount}
                     isDeleting={isDeletingComponents}
                     unitDetails={units[selectedUnit]}

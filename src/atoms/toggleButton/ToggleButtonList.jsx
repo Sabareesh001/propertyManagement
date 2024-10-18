@@ -42,7 +42,7 @@ const ToggleButtonList = ({selectedValue,setSelectedValue,buttonList,value=null}
         }}
         exclusive
         value={selectedValue}
-        onChange={(e,val)=>{if(val){setSelectedValue(val)}}}
+        onChange={(e,val)=>{if(val){setSelectedValue(val,e)}}}
         >
            {
             buttonList?.map((data)=>(<ToggleButton   sx={{

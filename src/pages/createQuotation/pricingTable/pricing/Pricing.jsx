@@ -7,6 +7,8 @@ import { InputLabel, LinearProgress } from "@mui/material";
 import StyledSelect from "../../../../atoms/styledSelect/StyledSelect";
 import StyledInput from "../../../../atoms/styledInput/StyledInput";
 import { CreateQuotationContext } from "../../../../contexts/createQuotationContext/CreateQuotationContext";
+import axios from "axios";
+import { apiHost } from "../../../../config/config";
 
 const Pricing = ({
   optionInfo,
@@ -22,20 +24,101 @@ const Pricing = ({
   unitsCopy,
   reload,
 }) => {
-  const [revenueTypes, setRevenueTypes] = useState([
-    {
-      name: "Lease",
-      value: 1,
-    },
-    {
-      name: "Sales",
-      value: 2,
-    },
-    {
-      name: "Manage",
-      value: 3,
-    },
-  ]);
+  const [revenueTypes, setRevenueTypes] = useState([]);
+  const [taxGroupOptions, setTaxGroupOptions] = useState([]);
+  const [componentBasedOnOptions, setComponentBasedOnOptions] = useState([]);
+  const [PricingBasedOnOptions, setPricingBasedOnOptions] = useState([]);
+
+
+ const fetchRevenueTypes = ()=>{
+  axios.get(`${apiHost}/api/revenue-types`).then((res)=>{
+    if(res.data){
+      const modifiedResposnse = res.data.map((option)=>{
+        return(
+          {
+            name:option?.name,
+            value:option?.id
+          }
+        )
+      })
+      setRevenueTypes(modifiedResposnse);
+    }
+  })
+ }
+
+ const fetchPricingComponentTypes = ()=>{
+  axios.get(`${apiHost}/api/pricing-component-types`).then((res)=>{
+    if(res.data){
+      const modifiedResposnse = res.data.map((option)=>{
+        return(
+          {
+            label:option?.name,
+            value:option?.id
+          }
+        )
+      })
+      setPricingComponentOptions(modifiedResposnse);
+    }
+  })
+ }
+
+ const fetchTaxGroups = ()=>{
+  axios.get(`${apiHost}/api/tax-groups`).then((res)=>{
+    if(res.data){
+      const modifiedResposnse = res.data.map((option)=>{
+        return(
+          {
+            label:option?.name,
+            value:option?.id
+          }
+        )
+      })
+      setTaxGroupOptions(modifiedResposnse);
+    }
+  })
+ }
+
+ const fetchComponentBasedOnTypes = ()=>{
+  axios.get(`${apiHost}/api/component-based-on-types`).then((res)=>{
+    if(res.data){
+      const modifiedResposnse = res.data.map((option)=>{
+        return(
+          {
+            name:option?.name,
+            value:option?.id
+          }
+        )
+      })
+      setComponentBasedOnOptions(modifiedResposnse);
+    }
+  })
+ }
+
+ const fetchPricingBasedOnTypes = ()=>{
+  axios.get(`${apiHost}/api/pricing-based-on-types`).then((res)=>{
+    if(res.data){
+      const modifiedResposnse = res.data.map((option)=>{
+        return(
+          {
+            name:option?.name,
+            value:option?.id
+          }
+        )
+      })
+      setPricingBasedOnOptions(modifiedResposnse);
+    }
+  })
+ }
+
+ 
+ useEffect(()=>{
+   fetchRevenueTypes();
+   fetchPricingComponentTypes();
+   fetchTaxGroups();
+   fetchComponentBasedOnTypes();
+   fetchPricingBasedOnTypes();
+ },[])
+
   const { units, setUnits } = useContext(CreateQuotationContext);
   const [uomValue, setUomValue] = useState(unitData?.uom_value);
   const [selectedPricingComponent, setSelectedPricingComponent] =
@@ -45,7 +128,7 @@ const Pricing = ({
     unitData?.revenue_type
   );
   const [selectedChangable, setSelectedChangable] = useState(
-    unitData?.changable
+    unitData?.is_changable?1:2
   );
   const [selectedPricingBasedOn, setSelectedPricingBasedOn] = useState(
     unitData?.pricing_based_on
@@ -58,24 +141,13 @@ const Pricing = ({
   );
   const [selectedQuantity, setSelectedQuantity] = useState(unitData?.quantity);
 
-  const [selectedMinimum, setSelectedMinimum] = useState(unitData?.min);
+  const [selectedMinimum, setSelectedMinimum] = useState(unitData?.minimum);
   const [selectedRecommended, setSelecteRecommended] = useState(
     unitData?.recommended
   );
-  const [selectedMaximum, setSelectedMaximum] = useState(unitData?.max);
-  const [pricingComponentOptions, setPricingComponentOptions] = useState([
-    {
-      label: "Pricing Component",
-      value: 1,
-    },
-  ]);
+  const [selectedMaximum, setSelectedMaximum] = useState(unitData?.maximum);
+  const [pricingComponentOptions, setPricingComponentOptions] = useState([]);
 
-  const [taxGroupOptions, setTaxGroupOptions] = useState([
-    {
-      label: "GST",
-      value: 1,
-    },
-  ]);
 
   useEffect(() => {
     console.log(selectedPricingComponent);
@@ -92,7 +164,7 @@ const Pricing = ({
   useEffect(() => {
     setSelectedTaxGroup(
       taxGroupOptions.find(
-        (data) => data.value === unitData?.tax_group_for_pricing
+        (data) => data.value === unitData?.tax_group
       )
     );
   }, [taxGroupOptions, unitData]);
@@ -108,31 +180,7 @@ const Pricing = ({
     },
   ]);
 
-  const [componentBasedOnOptions, setComponentBasedOnOptions] = useState([
-    {
-      name: "Amount",
-      value: 1,
-    },
-    {
-      name: "UOM",
-      value: 2,
-    },
-    {
-      name: "%",
-      value: 3,
-    },
-  ]);
 
-  const [PricingBasedOnOptions, setPricingBasedOnOptions] = useState([
-    {
-      name: "Monthly",
-      value: 1,
-    },
-    {
-      name: "Total",
-      value: 2,
-    },
-  ]);
 
   return (
     <div className="pricingContainer">
@@ -197,7 +245,7 @@ const Pricing = ({
             selectedValue={selectedTaxGroup}
             setSelectedValue={(val) => {
               setSelectedTaxGroup(val);
-              unitData.tax_group_for_pricing = val?.value;
+              unitData.tax_group = val?.value;
             }}
             size={"small"}
             fullWidth={false}
@@ -217,7 +265,7 @@ const Pricing = ({
               selectedValue={selectedChangable}
               setSelectedValue={(val) => {
                 setSelectedChangable(val);
-                unitData.changable = val;
+                unitData.is_changable = val==1?true:false;
               }}
               buttonList={changeableOptions}
             />
@@ -236,7 +284,7 @@ const Pricing = ({
             <ToggleButtonList
               selectedValue={selectedPricingBasedOn}
               setSelectedValue={(val) => {
-                setSelectedChangable(val);
+                setSelectedPricingBasedOn(val);
                 unitData.pricing_based_on = val;
               }}
               buttonList={PricingBasedOnOptions}
@@ -353,7 +401,7 @@ const Pricing = ({
               <StyledInput
                 inputType={"Number"}
                 inputValue={selectedMaximum}
-                setInputValue={(e) => {setSelectedMaximum(e.target.value); unitData.max = Number(e.target.value) }}
+                setInputValue={(e) => {setSelectedMaximum(e.target.value); unitData.maximum = Number(e.target.value) }}
                 startUnit={"$"}
                 fullWidth={false}
               />
@@ -432,7 +480,7 @@ const Pricing = ({
               <StyledInput
                 inputType={"Number"}
                 inputValue={selectedMinimum}
-                setInputValue={(e) => {setSelectedMinimum(e.target.value); unitData.min = Number(e.target.value) }}
+                setInputValue={(e) => {setSelectedMinimum(e.target.value); unitData.minimum = Number(e.target.value) }}
                 startUnit={"$"}
                 fullWidth={false}
               />
