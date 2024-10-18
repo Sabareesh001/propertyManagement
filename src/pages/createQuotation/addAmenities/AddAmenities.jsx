@@ -11,9 +11,19 @@ const AddAmenities = ({isOpen,onClose})=>{
 
     const {units,setUnits,amenities,setAmenities} = useContext(CreateQuotationContext);
     const [unitsCopy,setUnitsCopy] = useState([]);
+    const [total,setTotal] = useState(0);
     useEffect(()=>{
        setUnitsCopy(units)
     },[units])
+
+    useEffect(()=>{
+      let totalPrice  = 0.00;
+      amenities.forEach((data)=>{
+            totalPrice += data?.price || 0.00
+      })
+      setTotal(totalPrice);
+    },[amenities])
+
     return(
         <Dialog open={isOpen} onClose={onClose}>
            <Box padding={'20px'} display={'flex'} flexDirection={'column'} rowGap={'10px'} width={460}>
@@ -34,7 +44,7 @@ const AddAmenities = ({isOpen,onClose})=>{
               </div>
             </div>
             <div>
-                $ 200.00
+                $ {total.toFixed(2)}
             </div>
          </div>
             <div className='AvailableLabel'>Available Amenities</div>

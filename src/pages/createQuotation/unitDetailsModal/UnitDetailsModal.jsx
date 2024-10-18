@@ -354,7 +354,7 @@ const UnitDetailsModal = ({
               <CircleIcon className="circle" fontSize="inherit" />
               <div className="iconAndCountContainer">
                 <SelectAllIcon className="unitIcon" fontSize="inherit" />
-                <div className="units">{unitDetails?.area} Sq.ft</div>
+                <div className="units">{unitDetails?.area_in_sqft} Sq.ft</div>
               </div>
             </div>
             <Divider />

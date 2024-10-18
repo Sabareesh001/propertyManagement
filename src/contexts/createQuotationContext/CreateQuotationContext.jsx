@@ -18,9 +18,9 @@ const CreateOuotationContextProvider = ({ component }) => {
   const [currentUnit, setCurrentUnit] = useState(null);
 
   const [quotationDetails, setQuotationDetails] = useState({
-    lease_start_date: "22 Feb",
-    lease_end_date: "22 Jan",
-    rent_start_date: "22 Feb",
+    lease_start_date: new Date().toDateString(),
+    lease_end_date: new Date().toDateString(),
+    rent_start_date: new Date().toDateString(),
     grace_period: 90,
   });
 
@@ -124,29 +124,6 @@ const CreateOuotationContextProvider = ({ component }) => {
     },
   ]);
 
-  const [unitImageList, setUnitImageList] = useState([
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-    {
-      image: House2,
-    },
-  ]);
 
   const fetchPropertyUnits = () => {
     axios
@@ -192,10 +169,33 @@ const CreateOuotationContextProvider = ({ component }) => {
       });
   };
 
+  const filterUnitData = ()=>{
+    let newUnit = [...units];
+    newUnit = newUnit.map((data)=>{
+
+      return(
+        {
+          id:data.id,
+          primary_pricing: data.primary_pricing,
+          secondary_pricing :  data.secondary_pricing,
+          one_time_cost_pricing: data.one_time_cost_pricing,
+          refundables_pricing : data.refundables_pricing,
+          inventory_pricing : data.inventory_pricing,
+          parking_pricing : data.parking_pricing,
+          amenities:data.amenities,
+          utilities:data.utilities
+         
+        }
+      )
+    })
+    console.log({unitsData:newUnit, quotation_details:quotationDetails});
+  }
+
   const [units, setUnits] = useState([]);
 
   useEffect(() => {
     console.log(units);
+    filterUnitData();
   }, [units]);
 
   useEffect(() => {
@@ -355,7 +355,6 @@ const CreateOuotationContextProvider = ({ component }) => {
         setQuotationDetails,
         units,
         setUnits,
-        unitImageList,
         currentUnit,
         setCurrentUnit,
         quotationSummary,

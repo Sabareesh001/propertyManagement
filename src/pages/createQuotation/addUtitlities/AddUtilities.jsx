@@ -10,10 +10,19 @@ const AddUtilities = ({isOpen,onClose})=>{
 
   const {units,setUnits,utilities,setUtilities} = useContext(CreateQuotationContext);
   const [unitsCopy,setUnitsCopy] = useState([]);
+  const [total,setTotal] = useState(0);
+
   useEffect(()=>{
      setUnitsCopy(units)
   },[units])
 
+  useEffect(()=>{
+    let totalPrice  = 0.00;
+    utilities.forEach((data)=>{
+          totalPrice += data?.price || 0.00
+    })
+    setTotal(totalPrice);
+  },[utilities])
 
     return(
         <Dialog open={isOpen} onClose={onClose}>
@@ -35,7 +44,7 @@ const AddUtilities = ({isOpen,onClose})=>{
               </div>
             </div>
             <div>
-                $ 200.00
+                $ {total.toFixed(2)}
             </div>
          </div>
             <div className='AvailableLabel'>Available Utilities</div>
