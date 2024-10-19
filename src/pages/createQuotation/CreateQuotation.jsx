@@ -159,7 +159,7 @@ const CreateQuotation = () => {
                     <div>{quotationDetails?.rent_start_date.toDateString()}</div>
                   </div>
                   <div>
-                    <div className="title">Grace period </div>
+                    <div className="title">Grace period </div> 
                     <div>
                       {quotationDetails?.grace_period} days{" "}
                       <div className="graceperiodBracket">{"(Beginning)"}</div>
