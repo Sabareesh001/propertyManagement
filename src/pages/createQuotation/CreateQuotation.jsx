@@ -148,15 +148,15 @@ const CreateQuotation = () => {
                 <div className="quotationDetailsUnderLeadContainer">
                   <div>
                     <div className="title">Lease Start Date </div>
-                    <div>{quotationDetails?.lease_start_date}</div>
+                    <div>{quotationDetails?.lease_start_date.toDateString()}</div>
                   </div>
                   <div>
                     <div className="title">Lease End Date </div>
-                    <div>{quotationDetails?.lease_end_date}</div>
+                    <div>{quotationDetails?.lease_end_date.toDateString()}</div>
                   </div>
                   <div>
                     <div className="title">Rent Start Date </div>
-                    <div>{quotationDetails?.rent_start_date}</div>
+                    <div>{quotationDetails?.rent_start_date.toDateString()}</div>
                   </div>
                   <div>
                     <div className="title">Grace period </div>

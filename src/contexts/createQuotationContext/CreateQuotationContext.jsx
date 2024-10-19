@@ -18,9 +18,9 @@ const CreateOuotationContextProvider = ({ component }) => {
   const [currentUnit, setCurrentUnit] = useState(null);
 
   const [quotationDetails, setQuotationDetails] = useState({
-    lease_start_date: new Date().toDateString(),
-    lease_end_date: new Date().toDateString(),
-    rent_start_date: new Date().toDateString(),
+    lease_start_date: new Date(),
+    lease_end_date: new Date(),
+    rent_start_date: new Date(),
     grace_period: 90,
   });
 
