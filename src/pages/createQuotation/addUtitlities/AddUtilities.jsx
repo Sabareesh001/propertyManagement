@@ -40,7 +40,7 @@ const AddUtilities = ({isOpen,onClose})=>{
             <div>
               <AutoAwesomeIcon/>
               <div>
-                <b>05</b> Total Utilities
+                <b>{utilities.length}</b> Total Utilities
               </div>
             </div>
             <div>

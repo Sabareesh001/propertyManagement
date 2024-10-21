@@ -40,7 +40,7 @@ const AddAmenities = ({isOpen,onClose})=>{
             <div>
               <HotTubIcon/>
               <div>
-                <b>05</b> Total Amenities
+                <b>{amenities.length}</b> Total Amenities
               </div>
             </div>
             <div>
